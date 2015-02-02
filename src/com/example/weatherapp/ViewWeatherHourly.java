@@ -6,7 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class ViewFirst extends Fragment {
+public class ViewWeatherHourly extends Fragment {
     public static final String ARG_OBJECT = "object";
 
     @Override
@@ -15,7 +15,7 @@ public class ViewFirst extends Fragment {
         // The last two arguments ensure LayoutParams are inflated
         // properly.
         View rootView = inflater.inflate(
-                R.layout.activity_view_first, container, false);
+                R.layout.activity_view_hourly, container, false);
         return rootView;
     }
 }

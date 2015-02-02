@@ -1,0 +1,34 @@
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/GridLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:columnCount="4"
+    android:orientation="vertical"
+    android:rowCount="3"
+    tools:context=".MainActivity" >
+
+    <ImageView
+        android:id="@+id/weatherView"
+        android:layout_width="106dp"
+        android:layout_height="106dp"
+        android:layout_column="0"
+        android:layout_gravity="left|top"
+        android:layout_row="0"
+        android:layout_rowSpan="2"
+        android:src="@drawable/ic_launcher" />
+
+    <TextView
+        android:id="@+id/tempView"
+        android:layout_column="1"
+         android:layout_row="1"
+        android:text="temp" />
+
+    <TextView
+        android:id="@+id/weatherView"
+        android:layout_column="1"
+        android:layout_row="1"
+        android:text="weather" />
+
+
+</GridLayout>

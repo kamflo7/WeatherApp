@@ -6,8 +6,15 @@ xmlns:WeatherApp="http://schemas.android.com/apk/res-auto" >
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
-        android:showAsAction="ifRoom|withText"
-        android:icon="@drawable/city"
+        android:showAsAction="always"
+        android:icon="@drawable/ic_action_settings"
         android:title="@string/action_settings"/>
+    
+    <item
+        android:id="@+id/action_location"
+        android:orderInCategory="99"
+        android:showAsAction="always"
+        android:icon="@drawable/city"
+        android:title="Location"/>
 
 </menu>

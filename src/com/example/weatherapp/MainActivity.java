@@ -3,14 +3,15 @@ package com.example.weatherapp;
 import java.util.ArrayList;
 import java.util.List;
 
-import fragments.ViewWeatherHourly;
-import fragments.ViewWeatherLong;
-import fragments.ViewWeatherNow;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.AlertDialog;
 import android.app.FragmentTransaction;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -21,15 +22,32 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
+import fragments.ViewWeatherHourly;
+import fragments.ViewWeatherLong;
+import fragments.ViewWeatherNow;
 
 public class MainActivity extends FragmentActivity {
 
 	private MyFragmentPageAdapter pagerAdapter;
 	private ViewPager mViewPager;
+	
 	private List<Location> locations = new ArrayList<Location>();
-	@SuppressWarnings("unused")
 	private int selectedIndexLocation = 0;
-
+	
+	private List<Fragment> fragments = new ArrayList<Fragment>();
+	
+	public static String INTENT_ACTION = "com.example.weatherapp.fragments";
+	private IntentFilter filter = new IntentFilter(INTENT_ACTION);
+	private int receivedMessage = 0;
+	private BroadcastReceiver broadcast = new BroadcastReceiver(){
+        @Override
+        public void onReceive(Context context, Intent intent) {
+        	Log.d("test", "Odebra³em dane. " + intent.getStringExtra("fragmentName"));
+        	if(++receivedMessage == fragments.size())
+        		onFragmentViewsInflated();
+        }
+    };
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -41,13 +59,29 @@ public class MainActivity extends FragmentActivity {
 		locations.add(new Location("Szczecin", 53.4252, 14.5555));
 		locations.add(new Location("Los Angeles", 34.0535, 118.245));
 		locations.add(new Location("Miami", 25.7748, -80.1977));
+		
+	}
+	
+	private void onFragmentViewsInflated() {
+		Log.d("test", "All fragment views are inflated.");
+	}
+	
+	@Override
+	protected void onResume() {
+		registerReceiver(broadcast, filter);
+		super.onResume();
+	}
+	
+	@Override
+	protected void onPause() {
+		unregisterReceiver(broadcast);
+		super.onPause();
 	}
 	
 	private void initBarAndNavigation() {
 		final ActionBar actionBar = getActionBar();
 		mViewPager = (ViewPager) findViewById(R.id.pager);
 		
-		List<Fragment> fragments = new ArrayList<Fragment>();
 		fragments.add(Fragment.instantiate(this, ViewWeatherNow.class.getName()));
 		fragments.add(Fragment.instantiate(this, ViewWeatherHourly.class.getName()));
 		fragments.add(Fragment.instantiate(this, ViewWeatherLong.class.getName()));
@@ -98,7 +132,6 @@ public class MainActivity extends FragmentActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		Log.d("test", "onCreateOptionMenu siê odpali³o");
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}

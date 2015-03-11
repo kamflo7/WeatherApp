@@ -1,6 +1,9 @@
 package fragments;
 
+import com.example.weatherapp.MainActivity;
 import com.example.weatherapp.R;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -17,6 +20,11 @@ public class ViewWeatherLong extends Fragment {
         // properly.
         View rootView = inflater.inflate(
                 R.layout.activity_view_long, container, false);
+        
+        Intent intent = new Intent(MainActivity.INTENT_ACTION);
+        intent.putExtra("fragmentName", this.getClass().getName());
+        getActivity().sendBroadcast(intent);
+        
         return rootView;
     }
 }

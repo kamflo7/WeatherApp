@@ -1,6 +1,6 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/RelativeLayout1"
+    android:id="@+id/LinearLayout1"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
@@ -8,18 +8,13 @@
         android:id="@+id/weatherView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="45dp"
-        android:layout_marginTop="46dp"
+        android:layout_gravity="center_vertical"
         android:src="@drawable/na" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/weatherView"
-        android:layout_centerHorizontal="true"
-         >
+        android:layout_height="wrap_content" 
+        android:layout_gravity="center_vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -54,38 +49,19 @@
 
         </LinearLayout>
 
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_weight="0.5"
             android:layout_height="match_parent"
+            android:layout_weight="0.5"
             android:orientation="vertical" >
 
             <TextView
-                android:id="@+id/windView"
+                android:id="@+id/th"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="TextView" />
-
         </LinearLayout>
-
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/tempView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/weatherView"
-        android:layout_centerHorizontal="true"
-        android:text="TextView" />
-
-    <TextView
-        android:id="@+id/cloudsView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/tempView"
-        android:layout_alignBottom="@+id/tempView"
-        android:layout_marginLeft="15dp"
-        android:layout_toRightOf="@+id/tempView"
-        android:text="TextView" />
-
-</RelativeLayout>
+</LinearLayout>

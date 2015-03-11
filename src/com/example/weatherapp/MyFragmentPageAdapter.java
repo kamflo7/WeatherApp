@@ -1,28 +1,28 @@
 package com.example.weatherapp;
 
+import java.util.List;
+
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 public class MyFragmentPageAdapter extends FragmentPagerAdapter {
 
-	public MyFragmentPageAdapter(FragmentManager fm) {
+	private List<Fragment> fragments;
+	
+	public MyFragmentPageAdapter(FragmentManager fm, List<Fragment> fragments) {
 		super(fm);
+		this.fragments = fragments;
 	}
 
 	@Override
 	public Fragment getItem(int i) {
-		switch(i) {
-		case 0: return new ViewWeatherNow();
-		case 1: return new ViewWeatherHourly();
-		case 2: return new ViewWeatherLong();
-		}
-		return null;
+		return fragments.get(i);
 	}
 
 	@Override
 	public int getCount() {
-		return 3;
+		return fragments.size();
 	}
 	
 	@Override

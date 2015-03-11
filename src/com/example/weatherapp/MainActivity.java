@@ -3,12 +3,16 @@ package com.example.weatherapp;
 import java.util.ArrayList;
 import java.util.List;
 
+import fragments.ViewWeatherHourly;
+import fragments.ViewWeatherLong;
+import fragments.ViewWeatherNow;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.AlertDialog;
 import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
@@ -23,6 +27,7 @@ public class MainActivity extends FragmentActivity {
 	private MyFragmentPageAdapter pagerAdapter;
 	private ViewPager mViewPager;
 	private List<Location> locations = new ArrayList<Location>();
+	@SuppressWarnings("unused")
 	private int selectedIndexLocation = 0;
 
 	@Override
@@ -30,10 +35,25 @@ public class MainActivity extends FragmentActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		final ActionBar actionBar = getActionBar();
+		initBarAndNavigation();
 
-		pagerAdapter = new MyFragmentPageAdapter(getSupportFragmentManager());
+		locations.add(new Location("Kraków", 50.0605, 19.9324));
+		locations.add(new Location("Szczecin", 53.4252, 14.5555));
+		locations.add(new Location("Los Angeles", 34.0535, 118.245));
+		locations.add(new Location("Miami", 25.7748, -80.1977));
+	}
+	
+	private void initBarAndNavigation() {
+		final ActionBar actionBar = getActionBar();
 		mViewPager = (ViewPager) findViewById(R.id.pager);
+		
+		List<Fragment> fragments = new ArrayList<Fragment>();
+		fragments.add(Fragment.instantiate(this, ViewWeatherNow.class.getName()));
+		fragments.add(Fragment.instantiate(this, ViewWeatherHourly.class.getName()));
+		fragments.add(Fragment.instantiate(this, ViewWeatherLong.class.getName()));
+		
+		pagerAdapter = new MyFragmentPageAdapter(getSupportFragmentManager(), fragments);
+		
 		mViewPager.setAdapter(pagerAdapter);
 		mViewPager.setOnPageChangeListener(new OnPageChangeListener() {
 			@Override
@@ -74,11 +94,6 @@ public class MainActivity extends FragmentActivity {
 				.setTabListener(tabListener));
 		actionBar.addTab(actionBar.newTab().setText("D³ugoterminowa")
 				.setTabListener(tabListener));
-
-		locations.add(new Location("Kraków", 50.0605, 19.9324));
-		locations.add(new Location("Szczecin", 53.4252, 14.5555));
-		locations.add(new Location("Los Angeles", 34.0535, 118.245));
-		locations.add(new Location("Miami", 25.7748, -80.1977));
 	}
 
 	@Override

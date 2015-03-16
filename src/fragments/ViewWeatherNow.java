@@ -23,7 +23,7 @@ public class ViewWeatherNow extends Fragment {
                 R.layout.activity_view_now, container, false);
         
         Intent intent = new Intent(MainActivity.INTENT_ACTION);
-        intent.putExtra("fragmentName", this.getClass().getName());
+        intent.putExtra("fragmentName", MainActivity.FRAGMENT_WEATHER_NOW);
         getActivity().sendBroadcast(intent);
         
         ((TextView) rootView.findViewById(R.id.textView3test)).setText("TESTOWO!!");

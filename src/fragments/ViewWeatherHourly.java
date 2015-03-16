@@ -22,7 +22,7 @@ public class ViewWeatherHourly extends Fragment {
                 R.layout.activity_view_hourly, container, false);
         
         Intent intent = new Intent(MainActivity.INTENT_ACTION);
-        intent.putExtra("fragmentName", this.getClass().getName());
+        intent.putExtra("fragmentName", MainActivity.FRAGMENT_WEATHER_HOURLY);
         getActivity().sendBroadcast(intent);
         
         return rootView;

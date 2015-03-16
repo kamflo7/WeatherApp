@@ -37,14 +37,16 @@ public class MainActivity extends FragmentActivity {
 	private List<Fragment> fragments = new ArrayList<Fragment>();
 	
 	public static String INTENT_ACTION = "com.example.weatherapp.fragments";
+	public static String FRAGMENT_WEATHER_NOW = "weatherNow";
+	public static String FRAGMENT_WEATHER_HOURLY = "weatherHourly";
+	public static String FRAGMENT_WEATHER_LONG = "weatherLong";
 	private IntentFilter filter = new IntentFilter(INTENT_ACTION);
-	private int receivedMessage = 0;
+
 	private BroadcastReceiver broadcast = new BroadcastReceiver(){
+		private int a = 0;
         @Override
         public void onReceive(Context context, Intent intent) {
-        	Log.d("test", "Odebra³em dane. " + intent.getStringExtra("fragmentName"));
-        	if(++receivedMessage == fragments.size())
-        		onFragmentViewsInflated();
+        	Log.d("test", "onReceive [::onCreateView] " + intent.getStringExtra("fragmentName") + " " + (++a));    	
         }
     };
 	
@@ -59,11 +61,6 @@ public class MainActivity extends FragmentActivity {
 		locations.add(new Location("Szczecin", 53.4252, 14.5555));
 		locations.add(new Location("Los Angeles", 34.0535, 118.245));
 		locations.add(new Location("Miami", 25.7748, -80.1977));
-		
-	}
-	
-	private void onFragmentViewsInflated() {
-		Log.d("test", "All fragment views are inflated.");
 	}
 	
 	@Override

@@ -22,7 +22,7 @@ public class ViewWeatherLong extends Fragment {
                 R.layout.activity_view_long, container, false);
         
         Intent intent = new Intent(MainActivity.INTENT_ACTION);
-        intent.putExtra("fragmentName", this.getClass().getName());
+        intent.putExtra("fragmentName", MainActivity.FRAGMENT_WEATHER_LONG);
         getActivity().sendBroadcast(intent);
         
         return rootView;

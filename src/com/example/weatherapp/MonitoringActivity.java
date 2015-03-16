@@ -19,8 +19,15 @@ public class MonitoringActivity extends Activity implements BeaconConsumer {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-                beaconManager = BeaconManager.getInstanceForApplication(this);
+       
+        BeaconParser estimoteParser = new BeaconParser().setBeaconLayout("m:2-3=0215,i:4-19,i:20-21,i:22-23,p:24-24");
+        
+        beaconManager = BeaconManager.getInstanceForApplication(this);
+        beaconManager.getBeaconParsers().add(estimoteParser);
         beaconManager.bind(this);
+        
+      
+        
     }
     @Override 
     protected void onDestroy() {
@@ -33,22 +40,22 @@ public class MonitoringActivity extends Activity implements BeaconConsumer {
         beaconManager.setMonitorNotifier(new MonitorNotifier() {
         @Override
         public void didEnterRegion(Region region) {
-            Log.i(TAG, "I just saw an beacon for the first time!");        
+            Log.e(TAG, "I just saw an beacon for the first time!");        
         }
 
         @Override
         public void didExitRegion(Region region) {
-            Log.i(TAG, "I no longer see an beacon");
+            Log.e(TAG, "I no longer see an beacon");
         }
 
         @Override
             public void didDetermineStateForRegion(int state, Region region) {
-            Log.i(TAG, "I have just switched from seeing/not seeing beacons: "+state);        
+            Log.e(TAG, "I have just switched from seeing/not seeing beacons: "+state);        
             }
         });
 
         try {
-            beaconManager.startMonitoringBeaconsInRegion(new Region("myMonitoringUniqueId", null, null, null));
+            beaconManager.startMonitoringBeaconsInRegion(new Region("b9407f30-f5f8-466e-aff9-25556b57fe6d", null, null, null));
         } catch (RemoteException e) {    }
     }
 

@@ -35,8 +35,7 @@ public class MainActivity extends Activity {
         Location location = new Location("provider");
         location.setLatitude(50.061389);
         location.setLongitude(19.938333);
-        
-        this.apiHandler.requestBasicWeatherForToday(location);
+        this.apiHandler.requestWeatherForLocationForAmountOfDays(location, 10);
         
 
     }

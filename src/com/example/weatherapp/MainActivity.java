@@ -57,7 +57,7 @@ public class MainActivity extends FragmentActivity {
 
 		initBarAndNavigation();
 
-		locations.add(new Location("Kraków", 50.0605, 19.9324));
+		locations.add(new Location("KrakÃ›w", 50.0605, 19.9324));
 		locations.add(new Location("Szczecin", 53.4252, 14.5555));
 		locations.add(new Location("Los Angeles", 34.0535, 118.245));
 		locations.add(new Location("Miami", 25.7748, -80.1977));
@@ -123,7 +123,7 @@ public class MainActivity extends FragmentActivity {
 				.setTabListener(tabListener));
 		actionBar.addTab(actionBar.newTab().setText("Godzinowa")
 				.setTabListener(tabListener));
-		actionBar.addTab(actionBar.newTab().setText("D³ugoterminowa")
+		actionBar.addTab(actionBar.newTab().setText("Dâ‰¥ugoterminowa")
 				.setTabListener(tabListener));
 	}
 

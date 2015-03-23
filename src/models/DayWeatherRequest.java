@@ -24,8 +24,13 @@ import android.util.Log;
 
 
 
-public class APIJSONAsyncTask extends AsyncTask<String, String, DayWeather[]> {
+public class DayWeatherRequest extends AsyncTask<String, String, DayWeather[]> {
 
+	public interface OnDayWeatherRequestCompleted {
+		void onDayWeatherRequestCompleted(DayWeather[] result);
+	}
+	
+	private OnDayWeatherRequestCompleted listener;
 	static String TAG 					= "APIJSONAsyncTask";
 	static String SERVER 				= "http://api.openweathermap.org/data/2.5/forecast/daily?";
 	static String LATITUDE_PARAM_NAME 	= "lat=";
@@ -35,14 +40,29 @@ public class APIJSONAsyncTask extends AsyncTask<String, String, DayWeather[]> {
 	
 	static String GET_DELIMITER = "&";
 	
+	
+	public DayWeatherRequest(OnDayWeatherRequestCompleted listener) {
+		this.listener = listener;
+	}
+	
 	@Override 
 	protected void onPreExecute() {
 		Log.d("TAG", "We've starte request");
+	}
+	
+	
+	
+	@Override
+	protected void onPostExecute(DayWeather[] result) {
+		this.listener.onDayWeatherRequestCompleted(result);
 	}
 
 	@Override
 	protected DayWeather[] doInBackground(String... arg0) {
 		//String apiURL = "http://api.openweathermap.org/data/2.5/forecast/daily?lat=35&lon=139&cnt=10&mode=json";
+		
+		
+		
 		
 		String apiURL = arg0[0];
 		
@@ -204,3 +224,4 @@ public class APIJSONAsyncTask extends AsyncTask<String, String, DayWeather[]> {
 	
 
 }
+

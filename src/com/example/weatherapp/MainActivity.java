@@ -3,6 +3,9 @@ package com.example.weatherapp;
 import java.util.ArrayList;
 import java.util.List;
 
+import models.DayWeather;
+import models.DayWeatherRequest;
+
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.AlertDialog;
@@ -26,7 +29,7 @@ import fragments.ViewWeatherHourly;
 import fragments.ViewWeatherLong;
 import fragments.ViewWeatherNow;
 
-public class MainActivity extends FragmentActivity {
+public class MainActivity extends FragmentActivity implements DayWeatherRequest.OnDayWeatherRequestCompleted {
 
 	private MyFragmentPageAdapter pagerAdapter;
 	private ViewPager mViewPager;
@@ -41,6 +44,7 @@ public class MainActivity extends FragmentActivity {
 	public static String FRAGMENT_WEATHER_HOURLY = "weatherHourly";
 	public static String FRAGMENT_WEATHER_LONG = "weatherLong";
 	private IntentFilter filter = new IntentFilter(INTENT_ACTION);
+	private DayWeatherRequest requestWeather;
 
 	private BroadcastReceiver broadcast = new BroadcastReceiver(){
 		private int a = 0;
@@ -61,6 +65,21 @@ public class MainActivity extends FragmentActivity {
 		locations.add(new WeatherPlace("Szczecin", 53.4252, 14.5555));
 		locations.add(new WeatherPlace("Los Angeles", 34.0535, 118.245));
 		locations.add(new WeatherPlace("Miami", 25.7748, -80.1977));
+		
+		requestWeatherData(locations.get(selectedIndexLocation));
+	}
+	
+	private void requestWeatherData(WeatherPlace place) {
+		Log.d("test", "idzie request do internetow o pogode");
+		requestWeather = new DayWeatherRequest(this);
+		requestWeather.requestWeatherForLocationForAmountOfDays(place.location, 1);
+	}
+	
+	@Override
+	public void onDayWeatherRequestCompleted(DayWeather[] result) {
+		Log.d("test", "Odebrany request: " + result);
+		//todo: Ustawic texty
+		
 	}
 	
 	@Override
@@ -178,5 +197,4 @@ public class MainActivity extends FragmentActivity {
 				});
 		builderSingle.show();
 	}
-
 }

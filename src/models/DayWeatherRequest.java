@@ -63,13 +63,15 @@ public class DayWeatherRequest extends AsyncTask<String, String, DayWeather[]> {
 		
 		
 		
-		
+		Log.d("TAG", "Do in background");
 		String apiURL = arg0[0];
 		
 		
 		String requestedJsonString = null;
 		
 		try {
+			
+			
 			URL u = new URL(apiURL);
 			HttpURLConnection c = (HttpURLConnection) u.openConnection();
 			c.setRequestMethod("GET");
@@ -79,13 +81,15 @@ public class DayWeatherRequest extends AsyncTask<String, String, DayWeather[]> {
 			
 			int status = c.getResponseCode();
 			
-			Log.i(TAG, status + " STATUS");
+			Log.i(TAG, status + " STATUS " + status);
 			
 			InputStream inputStream = null;
 			
 			switch (status) {
 			case 200:
 			case 201:
+				
+				Log.d("TAG", "200 or 201");
 				BufferedReader br = new BufferedReader(new InputStreamReader(c.getInputStream()));
 				StringBuilder sb = new StringBuilder();
 				
@@ -108,7 +112,11 @@ public class DayWeatherRequest extends AsyncTask<String, String, DayWeather[]> {
 			
 		} catch (MalformedURLException ex) {
 			
+			Log.i("TAG", "MalformedURLException");
+			
 		} catch (IOException ex) {
+			
+			Log.i("TAG", "IOException");
 			
 		}
 		

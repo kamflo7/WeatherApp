@@ -16,5 +16,6 @@ public class WeatherPlace {
 		Location location = new Location("");
 		location.setLatitude(latitude);
 		location.setLongitude(longitude);
+		this.location = location;
 	}
 }

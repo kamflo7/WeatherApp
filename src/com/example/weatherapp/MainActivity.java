@@ -31,7 +31,7 @@ public class MainActivity extends FragmentActivity {
 	private MyFragmentPageAdapter pagerAdapter;
 	private ViewPager mViewPager;
 	
-	private List<Location> locations = new ArrayList<Location>();
+	private List<WeatherPlace> locations = new ArrayList<WeatherPlace>();
 	private int selectedIndexLocation = 0;
 	
 	private List<Fragment> fragments = new ArrayList<Fragment>();
@@ -57,10 +57,10 @@ public class MainActivity extends FragmentActivity {
 
 		initBarAndNavigation();
 
-		locations.add(new Location("KrakÃ›w", 50.0605, 19.9324));
-		locations.add(new Location("Szczecin", 53.4252, 14.5555));
-		locations.add(new Location("Los Angeles", 34.0535, 118.245));
-		locations.add(new Location("Miami", 25.7748, -80.1977));
+		locations.add(new WeatherPlace("Kraków", 50.0605, 19.9324));
+		locations.add(new WeatherPlace("Szczecin", 53.4252, 14.5555));
+		locations.add(new WeatherPlace("Los Angeles", 34.0535, 118.245));
+		locations.add(new WeatherPlace("Miami", 25.7748, -80.1977));
 	}
 	
 	@Override
@@ -123,7 +123,7 @@ public class MainActivity extends FragmentActivity {
 				.setTabListener(tabListener));
 		actionBar.addTab(actionBar.newTab().setText("Godzinowa")
 				.setTabListener(tabListener));
-		actionBar.addTab(actionBar.newTab().setText("Dâ‰¥ugoterminowa")
+		actionBar.addTab(actionBar.newTab().setText("D³ugoterminowa")
 				.setTabListener(tabListener));
 	}
 

@@ -2,9 +2,7 @@ package models;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -12,7 +10,6 @@ import java.util.ArrayList;
 
 import org.apache.http.*;
 import org.apache.http.client.HttpClient;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -24,10 +21,10 @@ import android.util.Log;
 
 
 
-public class DayWeatherRequest extends AsyncTask<String, String, DayWeather[]> {
+public class DayWeatherRequest extends AsyncTask<String, String, DetailedDayWeather[]> {
 
 	public interface OnDayWeatherRequestCompleted {
-		void onDayWeatherRequestCompleted(DayWeather[] result);
+		void onDayWeatherRequestCompleted(DetailedDayWeather[] result);
 	}
 	
 	private OnDayWeatherRequestCompleted listener;
@@ -37,9 +34,7 @@ public class DayWeatherRequest extends AsyncTask<String, String, DayWeather[]> {
 	static String LONGITUDE_PARAM_NAME 	= "lon=";
 	static String CNT_DAYS 				= "cnt=";
 	static String MODE					= "mode="; // always =json
-	
 	static String GET_DELIMITER = "&";
-	
 	
 	public DayWeatherRequest(OnDayWeatherRequestCompleted listener) {
 		this.listener = listener;
@@ -50,27 +45,20 @@ public class DayWeatherRequest extends AsyncTask<String, String, DayWeather[]> {
 		Log.d("TAG", "We've starte request");
 	}
 	
-	
-	
 	@Override
-	protected void onPostExecute(DayWeather[] result) {
+	protected void onPostExecute(DetailedDayWeather[] result) {
+		
 		this.listener.onDayWeatherRequestCompleted(result);
 	}
 
 	@Override
-	protected DayWeather[] doInBackground(String... arg0) {
-		//String apiURL = "http://api.openweathermap.org/data/2.5/forecast/daily?lat=35&lon=139&cnt=10&mode=json";
-		
-		
-		
+	protected DetailedDayWeather[] doInBackground(String... arg0) {
 		Log.d("TAG", "Do in background");
+		
 		String apiURL = arg0[0];
-		
-		
 		String requestedJsonString = null;
 		
 		try {
-			
 			
 			URL u = new URL(apiURL);
 			HttpURLConnection c = (HttpURLConnection) u.openConnection();
@@ -83,12 +71,9 @@ public class DayWeatherRequest extends AsyncTask<String, String, DayWeather[]> {
 			
 			Log.i(TAG, status + " STATUS " + status);
 			
-			InputStream inputStream = null;
-			
 			switch (status) {
 			case 200:
 			case 201:
-				
 				Log.d("TAG", "200 or 201");
 				BufferedReader br = new BufferedReader(new InputStreamReader(c.getInputStream()));
 				StringBuilder sb = new StringBuilder();
@@ -99,13 +84,12 @@ public class DayWeatherRequest extends AsyncTask<String, String, DayWeather[]> {
 			        sb.append(line + "\n");
 			    }
 			    
-			    
 			    requestedJsonString = sb.toString();
 			    Log.e("TAG", sb.toString());
 				br.close();
 				
-				DayWeather[] dayWeather = this.interpretJsonDataToArrayOfDayWeather(requestedJsonString);
-				Log.i(TAG, dayWeather[1].temp + "");
+				DetailedDayWeather[] dayWeather = this.interpretJsonDataToArrayOfDayWeather(requestedJsonString);
+				
 				return dayWeather;
 				
 			}
@@ -123,8 +107,8 @@ public class DayWeatherRequest extends AsyncTask<String, String, DayWeather[]> {
 		return null;
 	}
 	
-	private DayWeather[] interpretJsonDataToArrayOfDayWeather(String jsonData) {
-		ArrayList<DayWeather> dayWeatherArrayList = new ArrayList<DayWeather>();
+	private DetailedDayWeather[] interpretJsonDataToArrayOfDayWeather(String jsonData) {
+		ArrayList<DetailedDayWeather> dayWeatherArrayList = new ArrayList<DetailedDayWeather>();
 		try {
 			JSONObject jObject = new JSONObject(jsonData);
 			JSONArray jArray = jObject.getJSONArray("list");
@@ -139,50 +123,69 @@ public class DayWeatherRequest extends AsyncTask<String, String, DayWeather[]> {
 
 		}
 		
-		return dayWeatherArrayList.toArray(new DayWeather[dayWeatherArrayList.size()]);
+		return dayWeatherArrayList.toArray(new DetailedDayWeather[dayWeatherArrayList.size()]);
 		
 		
 	}
 	
-	private void readJSON(String json) {
+
+	private DetailedDayWeather parseDayWeather(JSONObject jsObject) {
 		
-		try {
-			JSONObject jObject = new JSONObject(json);
-			JSONArray jArray = jObject.getJSONArray("list");
-			
-			Double doubleRain = jArray.getJSONObject(2).getDouble("rain");
-			
-			Log.e("MYTAG", "rain" + doubleRain);
-		} catch (JSONException e) {
-			Log.e("TAG", e.toString());
-		}
-		
-	}
-	
-	
-	
-	private DayWeather parseDayWeather(JSONObject jsObject) {
-		
-		DayWeather requestedDay = new DayWeather();
+		DetailedDayWeather requestedDay = new DetailedDayWeather();
 		try {
 			
-			
+			// Getting temperature
 			requestedDay.temp = (float) (jsObject.getJSONObject("temp").getDouble("day") - 273.0); //(uugly)
 			
-			String typeString = jsObject.getJSONObject("weather").getJSONObject("0").getString("main");
+			
+			// Getting type of weather - very wague - we don't use a lot of cases
+			int typeId = jsObject.getJSONObject("weather").getJSONObject("0").getInt("id");
 			
 			DayWeather.Type typeOfWeather = null;
-					
-		
-			requestedDay.type = DayWeather.Type.BROKEN_CLOUDS;
+			if(typeId == 800) {
+				typeOfWeather = DayWeather.Type.CLEAR_SKY;
+			} else if(typeId == 801) {
+				typeOfWeather = DayWeather.Type.FEW_CLOUDS;
+			} else if(typeId == 802) {
+				typeOfWeather = DayWeather.Type.SCATTERED_CLOUDS;
+			} else if(typeId == 803) {
+				typeOfWeather = DayWeather.Type.BROKEN_CLOUDS;
+			} else if(typeId >= 804) {
+				typeOfWeather = DayWeather.Type.FEW_CLOUDS;
+			} else if(typeId >= 700) {
+				typeOfWeather = DayWeather.Type.MIST;
+			} else if(typeId >= 600) {
+				typeOfWeather = DayWeather.Type.SNOW;
+			} else if(typeId >= 300) {				// Also Drizzle
+				typeOfWeather = DayWeather.Type.RAIN;
+			} else if(typeId >= 200 ) {
+				typeOfWeather = DayWeather.Type.THUNDERSTORM;
+			}
 			
+			requestedDay.type = typeOfWeather;
 			
+			// Getting the windSpeed
 			
-			
-			
+			requestedDay.windSpeed = (float) jsObject.getDouble("speed");
+			requestedDay.humidity  = (float) jsObject.getDouble("humidity");
+			requestedDay.cloudPercentage = (float) jsObject.getDouble("clouds");
+			requestedDay.pressure = (float) jsObject.getDouble("pressure");
+ 			
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+		
+		try {
+			requestedDay.rainMinimeters = (float) jsObject.getDouble("rain");
+		} catch(JSONException e) {
+			requestedDay.rainMinimeters = 0.0f;
+		}
+		
+		try {
+			requestedDay.snowMinimeters = (float) jsObject.getDouble("snow");
+		} catch(JSONException e) {
+			requestedDay.snowMinimeters = 0.0f;
 		}
 		
 		return requestedDay;
@@ -205,28 +208,6 @@ public class DayWeatherRequest extends AsyncTask<String, String, DayWeather[]> {
 		this.execute(requestURL);
 	}
 	
-	public DayWeather requestBasicWeatherForToday(Location location) {
-		
-		/*
-		
-		String requestURL = 
-				   String.format(SERVER + 
-				  LATITUDE_PARAM_NAME  	+ "%f" + GET_DELIMITER + 
-				  LONGITUDE_PARAM_NAME 	+ "%f" + GET_DELIMITER +  
-				  CNT_DAYS				+ "%f" + GET_DELIMITER + 
-				  MODE					+ "json", 
-				  location.getLatitude(),
-				  location.getLongitude(),
-				  10.0);
-		
-		
-		this.execute(requestURL);
-		*/
-		///this.doInBackground(requestURL);
-		
-		
-		return new DayWeather();
-	}
 	
 	
 	

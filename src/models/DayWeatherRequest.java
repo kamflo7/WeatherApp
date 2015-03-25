@@ -134,12 +134,15 @@ public class DayWeatherRequest extends AsyncTask<String, String, DetailedDayWeat
 		DetailedDayWeather requestedDay = new DetailedDayWeather();
 		try {
 			
+			Log.d("TAG", "BEFORE!!!");
 			// Getting temperature
 			requestedDay.temp = (float) (jsObject.getJSONObject("temp").getDouble("day") - 273.0); //(uugly)
-			
+			Log.d("TAG", "BEFORE2!!!");
 			
 			// Getting type of weather - very wague - we don't use a lot of cases
-			int typeId = jsObject.getJSONObject("weather").getJSONObject("0").getInt("id");
+			int typeId = jsObject.getJSONArray("weather").getJSONObject(0).getInt("id");
+			
+			Log.d("TAG", "B!!!");
 			
 			DayWeather.Type typeOfWeather = null;
 			if(typeId == 800) {
@@ -158,12 +161,12 @@ public class DayWeatherRequest extends AsyncTask<String, String, DetailedDayWeat
 				typeOfWeather = DayWeather.Type.SNOW;
 			} else if(typeId >= 300) {				// Also Drizzle
 				typeOfWeather = DayWeather.Type.RAIN;
-			} else if(typeId >= 200 ) {
+			} else if(typeId >= 200) {
 				typeOfWeather = DayWeather.Type.THUNDERSTORM;
 			}
 			
 			requestedDay.type = typeOfWeather;
-			
+			Log.d("TAG",  "typeOfWeather" +typeId);
 			// Getting the windSpeed
 			
 			requestedDay.windSpeed = (float) jsObject.getDouble("speed");
@@ -173,6 +176,8 @@ public class DayWeatherRequest extends AsyncTask<String, String, DetailedDayWeat
  			
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
+			
+			Log.d("TAG", "JSONException!!!");
 			e.printStackTrace();
 		}
 		

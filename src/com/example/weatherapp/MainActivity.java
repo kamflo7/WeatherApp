@@ -5,6 +5,7 @@ import java.util.List;
 
 import models.DayWeather;
 import models.DayWeatherRequest;
+import models.DetailedDayWeather;
 
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
@@ -77,10 +78,13 @@ public class MainActivity extends FragmentActivity implements DayWeatherRequest.
 	}
 	
 	@Override
-	public void onDayWeatherRequestCompleted(DayWeather[] result) {
+	public void onDayWeatherRequestCompleted(DetailedDayWeather[] result) {
 		Log.d("test", "Odebrany request: " + (result==null?("null"):("not null")));
-		Log.d("test", "DayWeather[] = " + result[0].temp + " " + result[0].type);
-		//todo: Ustawic texty
+		Log.d("test", "Count DetailedDayWeather: " + result.length);
+		
+		String test = String.format("[Odebrane dane:] temp: %f\nweather type: %s\nwindSpeed: %f\nhumidity: :%f\ncloud: %f",
+				result[0].temp, result[0].type.toString(), result[0].windSpeed, result[0].humidity, result[0].cloudPercentage);
+		Log.d("test", test);
 		
 	}
 	

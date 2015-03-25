@@ -3,10 +3,8 @@ package com.example.weatherapp;
 import java.util.ArrayList;
 import java.util.List;
 
-import models.DayWeather;
 import models.DayWeatherRequest;
 import models.DetailedDayWeather;
-
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.AlertDialog;
@@ -25,6 +23,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.Toast;
 import fragments.ViewWeatherHourly;
 import fragments.ViewWeatherLong;
@@ -62,7 +61,7 @@ public class MainActivity extends FragmentActivity implements DayWeatherRequest.
 
 		initBarAndNavigation();
 
-		locations.add(new WeatherPlace("Kraków", 50.0605, 19.9324));
+		locations.add(new WeatherPlace("Kraków", 50.08, 19.92));
 		locations.add(new WeatherPlace("Szczecin", 53.4252, 14.5555));
 		locations.add(new WeatherPlace("Los Angeles", 34.0535, 118.245));
 		locations.add(new WeatherPlace("Miami", 25.7748, -80.1977));
@@ -85,6 +84,18 @@ public class MainActivity extends FragmentActivity implements DayWeatherRequest.
 		String test = String.format("[Odebrane dane:] temp: %f\nweather type: %s\nwindSpeed: %f\nhumidity: :%f\ncloud: %f",
 				result[0].temp, result[0].type.toString(), result[0].windSpeed, result[0].humidity, result[0].cloudPercentage);
 		Log.d("test", test);
+		
+		switch(result[0].type) {
+		case CLEAR_SKY:	
+//			((ImageView) findViewById(R.id.weatherView)).setImageDrawable(R.drawable.clear_sky_day);
+			((ImageView) findViewById(R.id.weatherView)).setImageResource(R.drawable.clear_sky_day);
+
+			break;
+		case BROKEN_CLOUDS:
+			break;
+		case FEW_CLOUDS:
+			break;
+		}
 		
 	}
 	

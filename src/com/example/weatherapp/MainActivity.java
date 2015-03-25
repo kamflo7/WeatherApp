@@ -5,7 +5,7 @@ import java.util.List;
 
 import models.DayWeather;
 import models.DayWeatherRequest;
-
+import models.DetailedDayWeather;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.AlertDialog;
@@ -61,7 +61,7 @@ public class MainActivity extends FragmentActivity implements DayWeatherRequest.
 
 		initBarAndNavigation();
 
-		locations.add(new WeatherPlace("Kraków", 50.0605, 19.9324));
+		locations.add(new WeatherPlace("Krakï¿½w", 50.0605, 19.9324));
 		locations.add(new WeatherPlace("Szczecin", 53.4252, 14.5555));
 		locations.add(new WeatherPlace("Los Angeles", 34.0535, 118.245));
 		locations.add(new WeatherPlace("Miami", 25.7748, -80.1977));
@@ -77,7 +77,7 @@ public class MainActivity extends FragmentActivity implements DayWeatherRequest.
 	}
 	
 	@Override
-	public void onDayWeatherRequestCompleted(DayWeather[] result) {
+	public void onDayWeatherRequestCompleted(DetailedDayWeather[] result) {
 		Log.d("test", "Odebrany request: " + (result==null?("null"):("not null")));
 		Log.d("test", "DayWeather[] = " + result[0].temp + " " + result[0].type);
 		//todo: Ustawic texty
@@ -144,7 +144,7 @@ public class MainActivity extends FragmentActivity implements DayWeatherRequest.
 				.setTabListener(tabListener));
 		actionBar.addTab(actionBar.newTab().setText("Godzinowa")
 				.setTabListener(tabListener));
-		actionBar.addTab(actionBar.newTab().setText("D³ugoterminowa")
+		actionBar.addTab(actionBar.newTab().setText("Dï¿½ugoterminowa")
 				.setTabListener(tabListener));
 	}
 

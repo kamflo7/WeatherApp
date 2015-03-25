@@ -1,5 +1,7 @@
 package com.example.weatherapp;
 
+import java.util.Collection;
+
 import org.altbeacon.beacon.*;
 
 import com.example.weatherapp.R;
@@ -36,6 +38,23 @@ public class MonitoringActivity extends Activity implements BeaconConsumer {
     }
     @Override
     public void onBeaconServiceConnect() {
+    	
+    	
+    	beaconManager.setRangeNotifier(new RangeNotifier() {
+            @Override 
+            public void didRangeBeaconsInRegion(Collection<Beacon> beacons, Region region) {
+                if (beacons.size() > 0) {
+                    Log.i(TAG, "The first beacon I see is about "+beacons.iterator().next().getDistance()+" meters away.");        
+                }
+            }
+        });
+
+        try {
+            beaconManager.startRangingBeaconsInRegion(new Region("myRangingUniqueId", null, null, null));
+        } catch (RemoteException e) {    }
+    	
+    	
+    	
     	
         beaconManager.setMonitorNotifier(new MonitorNotifier() {
         @Override

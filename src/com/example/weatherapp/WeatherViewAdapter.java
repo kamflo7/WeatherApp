@@ -49,7 +49,7 @@ public class WeatherViewAdapter extends BaseAdapter {
 			holder.cloudsView = (TextView)view.findViewById(R.id.cloudsView);
 			holder.tempView = (TextView)view.findViewById(R.id.tempView);
 			holder.image = (ImageView)view.findViewById(R.id.weatherView);
-			holder.windView = (TextView) view.findViewById(R.id.windView);
+			//holder.windView = (TextView) view.findViewById(R.id.windView);
 			
 			view.setTag(holder);
 		}else{

@@ -71,13 +71,15 @@ public class MainActivity extends FragmentActivity implements DayWeatherRequest.
 	
 	private void requestWeatherData(WeatherPlace place) {
 		Log.d("test", "idzie request do internetow o pogode");
+		Toast.makeText(getApplicationContext(), "Wysylam request o pogode dla "+locations.get(selectedIndexLocation).locationName, Toast.LENGTH_LONG).show();
 		requestWeather = new DayWeatherRequest(this);
 		requestWeather.requestWeatherForLocationForAmountOfDays(place.location, 1);
 	}
 	
 	@Override
 	public void onDayWeatherRequestCompleted(DayWeather[] result) {
-		Log.d("test", "Odebrany request: " + result);
+		Log.d("test", "Odebrany request: " + (result==null?("null"):("not null")));
+		Log.d("test", "DayWeather[] = " + result[0].temp + " " + result[0].type);
 		//todo: Ustawic texty
 		
 	}
@@ -190,9 +192,11 @@ public class MainActivity extends FragmentActivity implements DayWeatherRequest.
 
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						Toast.makeText(getApplicationContext(),
-								"You selected item " + which, Toast.LENGTH_LONG)
-								.show();
+//						Toast.makeText(getApplicationContext(),
+//								"You selected item " + which, Toast.LENGTH_LONG)
+//								.show();
+						selectedIndexLocation = which;
+						requestWeatherData(locations.get(selectedIndexLocation));
 					}
 				});
 		builderSingle.show();

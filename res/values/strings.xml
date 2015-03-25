@@ -5,9 +5,14 @@
     <string name="action_settings">Settings!</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_detail_weather">DetailWeather</string>
+    
     <string  name="windSpeed">Prędkość wiatru</string>
+    <string  name="windGust">Porywy wiatru</string>
+    <string  name="cloudPercentage">Zachmurzenie</string>
+    <string  name="snowMinimetres">Śnieg</string>
+    <string  name="rainMinimetres">Deszcz</string>
+    <string name="pressure">Ciśnienie</string>
     <string name="humidity">Wilgotność</string>
-    <string name="pHa">Ciśnienie</string>
-    <string name="rain">Deszcz</string>
+
 
 </resources>

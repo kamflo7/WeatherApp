@@ -1,24 +1,47 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:padding="20dp">
+<RelativeLayout 
     android:id="@+id/RelativeLayout1"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:background="@drawable/layout_now" >
 
-    <ImageView
-        android:id="@+id/weatherView"
-        android:layout_width="wrap_content"
+    <RelativeLayout 
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="5dp"
-        android:src="@drawable/na" />
+        android:id="@+id/container">
+        <ImageView
+	        android:id="@+id/weatherView"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentLeft="true"
+	        android:layout_alignParentTop="true"
+	        android:layout_marginLeft="5dp"
+	        android:layout_marginTop="5dp"
+	        android:src="@drawable/clear_sky_day" />
+    
+    	<TextView
+	        android:id="@+id/nowTemperature"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignTop="@+id/weatherView"
+	        android:layout_centerHorizontal="true"
+	        android:layout_marginTop="5dp"
+	        android:text="17°C"
+	        android:textSize="24sp"
+	        android:textColor="#ffffff" />
+    </RelativeLayout>
+    
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/weatherView"
+        android:layout_below="@+id/container"
         android:layout_centerHorizontal="true"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
          >
 
         <LinearLayout
@@ -32,32 +55,38 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/windSpeed" />
+                android:text="@string/windSpeed"
+                android:textColor="#ffffff" />
             
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/cloudPercentage" />
+                android:text="@string/cloudPercentage"
+                android:textColor="#ffffff" />
             
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/snowMinimetres" />
+                android:text="@string/snowMinimetres"
+                android:textColor="#ffffff" />
             
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/rainMinimetres" />
+                android:text="@string/rainMinimetres"
+                android:textColor="#ffffff" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/pressure" />
+                android:text="@string/pressure"
+                android:textColor="#ffffff" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/humidity" />
+                android:text="@string/humidity"
+                android:textColor="#ffffff" />
 
         </LinearLayout>
 
@@ -71,50 +100,46 @@
                 android:id="@+id/nowWindSpeed"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="TextView" />
+                android:text="TextView"
+                android:textColor="#ffffff" />
             
             <TextView
                 android:id="@+id/nowCloudPercentage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="TextView" />
+                android:text="TextView"
+                android:textColor="#ffffff" />
 
 			<TextView
                 android:id="@+id/nowSnow"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="TextView" />
+                android:text="TextView"
+                android:textColor="#ffffff" />
 			
 			<TextView
                 android:id="@+id/nowRain"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="TextView" />
+                android:text="TextView"
+                android:textColor="#ffffff" />
 			
 			<TextView
                 android:id="@+id/nowPressure"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="TextView" />
+                android:text="TextView"
+                android:textColor="#ffffff" />
 			
 			<TextView
                 android:id="@+id/nowHumidity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="TextView" />
+                android:text="TextView"
+                android:textColor="#ffffff" />
             
         </LinearLayout>
 
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/nowTemperature"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/weatherView"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="5dp"
-        android:text="17°C"
-        android:textSize="24sp" />
-
+</RelativeLayout>
 </RelativeLayout>

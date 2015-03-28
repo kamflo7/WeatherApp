@@ -29,12 +29,12 @@ public class ViewWeatherNow extends Fragment {
     private void updateView() {
 		nowTemperature.setText(model.temp + "°C");
 		
-		nowWindSpeed.setText(Float.toString(model.windSpeed));
-		nowCloudPercentage.setText(Float.toString(model.cloudPercentage));
-		nowSnow.setText(Float.toString(model.snowMinimeters));
-		nowRain.setText(Float.toString(model.rainMinimeters));
-		nowPressure.setText(Float.toString(model.pressure));
-		nowHumidity.setText(Float.toString(model.humidity));
+		nowWindSpeed.setText(Float.toString(model.windSpeed) + " km/h");
+		nowCloudPercentage.setText(Float.toString(model.cloudPercentage) + " %");
+		nowSnow.setText(Float.toString(model.snowMinimeters) + " mm");
+		nowRain.setText(Float.toString(model.rainMinimeters) + " mm");
+		nowPressure.setText(Float.toString(model.pressure) + " hPa");
+		nowHumidity.setText(Float.toString(model.humidity) + " %");
 		
 		switch(model.type) {
 		case CLEAR_SKY:	imageViewNow.setImageResource(R.drawable.clear_sky_day); break;

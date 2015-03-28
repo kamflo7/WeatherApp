@@ -67,6 +67,7 @@ public class MainActivity extends FragmentActivity implements DayWeatherRequest.
 		
 		requestWeatherData(locations.get(selectedIndexLocation));
 	}
+
 	
 	private void requestWeatherData(WeatherPlace place) {
 		Log.d("test", "idzie request do internetow o pogode");

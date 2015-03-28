@@ -46,7 +46,7 @@ public class WeatherViewAdapter extends BaseAdapter {
 		if(convertView== null){
 			view  = mInflater.inflate(R.layout.activity_view_hourly, parent, false);
 			holder = new WHolder();
-			holder.cloudsView = (TextView)view.findViewById(R.id.cloudsView);
+			holder.cloudsView = (TextView)view.findViewById(R.id.nowTemperature);
 			holder.tempView = (TextView)view.findViewById(R.id.tempView);
 			holder.image = (ImageView)view.findViewById(R.id.weatherView);
 			//holder.windView = (TextView) view.findViewById(R.id.windView);

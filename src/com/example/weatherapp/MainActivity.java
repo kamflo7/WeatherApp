@@ -23,7 +23,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.Toast;
 import fragments.ViewWeatherHourly;
 import fragments.ViewWeatherLong;
@@ -33,19 +32,18 @@ public class MainActivity extends FragmentActivity implements DayWeatherRequest.
 
 	private MyFragmentPageAdapter pagerAdapter;
 	private ViewPager mViewPager;
+	private List<Fragment> fragments = new ArrayList<Fragment>();
 	
 	private List<WeatherPlace> locations = new ArrayList<WeatherPlace>();
 	private int selectedIndexLocation = 0;
+	private DayWeatherRequest requestWeather;
 	
-	private List<Fragment> fragments = new ArrayList<Fragment>();
 	
 	public static String INTENT_ACTION = "com.example.weatherapp.fragments";
 	public static String FRAGMENT_WEATHER_NOW = "weatherNow";
 	public static String FRAGMENT_WEATHER_HOURLY = "weatherHourly";
 	public static String FRAGMENT_WEATHER_LONG = "weatherLong";
 	private IntentFilter filter = new IntentFilter(INTENT_ACTION);
-	private DayWeatherRequest requestWeather;
-
 	private BroadcastReceiver broadcast = new BroadcastReceiver(){
 		private int a = 0;
         @Override
@@ -53,12 +51,13 @@ public class MainActivity extends FragmentActivity implements DayWeatherRequest.
         	Log.d("test", "onReceive [::onCreateView] " + intent.getStringExtra("fragmentName") + " " + (++a));    	
         }
     };
-	
+    
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-
+		
 		initBarAndNavigation();
 
 		locations.add(new WeatherPlace("Kraków", 50.08, 19.92));
@@ -85,17 +84,7 @@ public class MainActivity extends FragmentActivity implements DayWeatherRequest.
 				result[0].temp, result[0].type.toString(), result[0].windSpeed, result[0].humidity, result[0].cloudPercentage);
 		Log.d("test", test);
 		
-		switch(result[0].type) {
-		case CLEAR_SKY:	
-//			((ImageView) findViewById(R.id.weatherView)).setImageDrawable(R.drawable.clear_sky_day);
-			((ImageView) findViewById(R.id.weatherView)).setImageResource(R.drawable.clear_sky_day);
-
-			break;
-		case BROKEN_CLOUDS:
-			break;
-		case FEW_CLOUDS:
-			break;
-		}
+		((ViewWeatherNow) fragments.get(0)).setModel(result[0]);
 		
 	}
 	

@@ -108,22 +108,13 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/tempView"
+        android:id="@+id/nowTemperature"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/weatherView"
         android:layout_centerHorizontal="true"
-        android:text="Kraków"
-        android:textSize="18sp" />
-
-    <TextView
-        android:id="@+id/cloudsView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tempView"
-        android:layout_centerHorizontal="true"
-        android:text="17°C"
         android:layout_marginTop="5dp"
+        android:text="17°C"
         android:textSize="24sp" />
 
 </RelativeLayout>

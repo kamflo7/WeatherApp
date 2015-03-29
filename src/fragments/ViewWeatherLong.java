@@ -1,23 +1,33 @@
 package fragments;
 
-import com.example.weatherapp.MainActivity;
-import com.example.weatherapp.R;
-
+import models.DetailedDayWeather;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
+import android.widget.TextView;
 
-public class ViewWeatherLong extends Fragment {
-    public static final String ARG_OBJECT = "object";
+import com.example.weatherapp.MainActivity;
+import com.example.weatherapp.R;
+
+public class ViewWeatherLong extends Fragment {    
+    private DetailedDayWeather[] model = null;
+    private int startIndex;
+    
+    private ListView listView;
+    private TextView city;
+    
+    public void setModel(DetailedDayWeather[] arr, int start) {
+    	model = arr;
+    	startIndex = start;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater,
             ViewGroup container, Bundle savedInstanceState) {
-        // The last two arguments ensure LayoutParams are inflated
-        // properly.
         View rootView = inflater.inflate(
                 R.layout.activity_view_long, container, false);
         
@@ -25,6 +35,16 @@ public class ViewWeatherLong extends Fragment {
         intent.putExtra("fragmentName", MainActivity.FRAGMENT_WEATHER_LONG);
         getActivity().sendBroadcast(intent);
         
+        listView = (ListView) rootView.findViewById(R.id.longListView);
+        city = (TextView) rootView.findViewById(R.id.longCity);
+        
+        if(model != null) updateView();
+        
         return rootView;
+    }
+    
+    private void updateView() {
+    	LongRowAdapter adapter = new LongRowAdapter(getActivity().getApplicationContext(), R.layout.long_item_layout, model, startIndex);
+        listView.setAdapter(adapter);
     }
 }

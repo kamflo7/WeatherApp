@@ -33,6 +33,7 @@ public class DayWeatherRequest extends AsyncTask<String, String, DetailedDayWeat
 	static String CNT_DAYS 				= "cnt=";
 	static String MODE					= "mode="; // always =json
 	static String GET_DELIMITER = "&";
+	private String city;
 	
 	public DayWeatherRequest(OnDayWeatherRequestCompleted listener) {
 		this.listener = listener;
@@ -101,6 +102,8 @@ public class DayWeatherRequest extends AsyncTask<String, String, DetailedDayWeat
 		try {
 			JSONObject jObject = new JSONObject(jsonData);
 			JSONArray jArray = jObject.getJSONArray("list");
+			
+			city = jObject.getJSONObject("city").getString("name") + ", " + jObject.getJSONObject("city").getString("country");
 			Log.d("test", "City: " + jObject.getJSONObject("city").getString("name"));
 			
 			for(int i = 0; i < jArray.length(); i++) {
@@ -158,7 +161,7 @@ public class DayWeatherRequest extends AsyncTask<String, String, DetailedDayWeat
 		requestedDay.pressure = (float) getDoubleJSON(jsObject, "pressure");
 		requestedDay.rainMinimeters = (float) getDoubleJSON(jsObject, "rain");
 		requestedDay.snowMinimeters = (float) getDoubleJSON(jsObject, "snow");
-
+		requestedDay.city = this.city;
 		
 		return requestedDay;
 	}

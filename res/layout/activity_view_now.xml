@@ -8,33 +8,47 @@
     android:layout_height="match_parent"
     android:background="@drawable/layout_now" >
 
+    <TextView
+        android:id="@+id/nowCity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:text="Kraków"
+        android:textStyle="italic"
+        android:textColor="#ffffff"
+        android:textSize="20sp" />
+    
     <RelativeLayout 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/nowCity"
         android:id="@+id/container">
+
         <ImageView
-	        android:id="@+id/weatherView"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_alignParentLeft="true"
-	        android:layout_alignParentTop="true"
-	        android:layout_marginLeft="5dp"
-	        android:layout_marginTop="5dp"
-	        android:src="@drawable/clear_sky_day" />
+            android:id="@+id/weatherView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:src="@drawable/clear_sky_day" />
     
-    	<TextView
-	        android:id="@+id/nowTemperature"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_alignTop="@+id/weatherView"
-	        android:layout_centerHorizontal="true"
-	        android:layout_marginTop="5dp"
-	        android:text="17°C"
-	        android:textSize="24sp"
-	        android:textColor="#ffffff" />
+        <TextView
+            android:id="@+id/nowTemperature"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/weatherView"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp"
+            android:text="17°C"
+            android:textSize="24sp"
+            android:textColor="#ffff"/>
+        
     </RelativeLayout>
     
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -110,28 +124,28 @@
                 android:text="TextView"
                 android:textColor="#ffffff" />
 
-			<TextView
+            <TextView
                 android:id="@+id/nowSnow"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="TextView"
                 android:textColor="#ffffff" />
-			
-			<TextView
+            
+            <TextView
                 android:id="@+id/nowRain"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="TextView"
                 android:textColor="#ffffff" />
-			
-			<TextView
+            
+            <TextView
                 android:id="@+id/nowPressure"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="TextView"
                 android:textColor="#ffffff" />
-			
-			<TextView
+            
+            <TextView
                 android:id="@+id/nowHumidity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -141,5 +155,6 @@
         </LinearLayout>
 
     </LinearLayout>
+    
 </RelativeLayout>
 </RelativeLayout>

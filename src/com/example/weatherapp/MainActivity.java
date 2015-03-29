@@ -20,6 +20,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.text.format.Time;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -69,17 +70,34 @@ public class MainActivity extends FragmentActivity {
 
 	
 	private void requestWeatherData(WeatherPlace place) {
-		Log.d("test", "idzie request do internetow o pogode");
+		Log.d("test", "Idzie request do internetow o pogode");
 		Toast.makeText(getApplicationContext(), "Pobieram pogodê dla lokalizacji: "+locations.get(selectedIndexLocation).locationName, Toast.LENGTH_LONG).show();
 		
-		DayWeatherRequest request = new DayWeatherRequest(new DayWeatherRequest.OnDayWeatherRequestCompleted() {
+		DayWeatherRequest requestNowAndLong = new DayWeatherRequest(new DayWeatherRequest.OnDayWeatherRequestCompleted() {
 			@Override
 			public void onDayWeatherRequestCompleted(DetailedDayWeather[] result) {
 				debugPrintWeather(result);
-				((ViewWeatherNow) fragments.get(0)).setModel(result[0]);
+				
+				Time now = new Time();
+				now.setToNow();
+				Log.d("test", "Current time in smartphone is: " + String.format("%d-%d-%d %d:%d", now.year, now.month+1, now.monthDay, now.hour, now.minute));
+				
+				int startIndexForWeatherToday = 0;
+				for(int i=0; i<result.length; i++) {
+					Date d = new Date(result[i].timestamp);
+					if(d.getDay() == now.monthDay) {
+						startIndexForWeatherToday = i;
+						break;
+					}
+				}
+				
+				Log.d("test", "Calculated index for weather today is " + startIndexForWeatherToday);
+				
+				((ViewWeatherNow) fragments.get(0)).setModel(result[startIndexForWeatherToday]);
+				((ViewWeatherLong) fragments.get(2)).setModel(result, startIndexForWeatherToday);
 			}
 		});
-		request.requestWeatherForLocationForAmountOfDays(place.location, 5);
+		requestNowAndLong.requestWeatherForLocationForAmountOfDays(place.location, 5);
 	}
 	
 	private void debugPrintWeather(DetailedDayWeather[] result) {

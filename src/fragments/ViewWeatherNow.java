@@ -17,7 +17,7 @@ public class ViewWeatherNow extends Fragment {
     public static final String ARG_OBJECT = "object";
 
     public ImageView imageViewNow;
-    public TextView nowTemperature, nowWindSpeed, nowCloudPercentage, nowSnow, nowRain, nowPressure, nowHumidity;
+    public TextView nowCity, nowTemperature, nowWindSpeed, nowCloudPercentage, nowSnow, nowRain, nowPressure, nowHumidity;
 	
     private DetailedDayWeather model;
     
@@ -29,6 +29,7 @@ public class ViewWeatherNow extends Fragment {
     private void updateView() {
 		nowTemperature.setText(model.temp + "°C");
 		
+		nowCity.setText(model.city);
 		nowWindSpeed.setText(Float.toString(model.windSpeed) + " km/h");
 		nowCloudPercentage.setText(Float.toString(model.cloudPercentage) + " %");
 		nowSnow.setText(Float.toString(model.snowMinimeters) + " mm");
@@ -60,6 +61,7 @@ public class ViewWeatherNow extends Fragment {
         intent.putExtra("fragmentName", MainActivity.FRAGMENT_WEATHER_NOW);
         getActivity().sendBroadcast(intent);
         
+        nowCity = (TextView) rootView.findViewById(R.id.nowCity);
         imageViewNow = (ImageView) rootView.findViewById(R.id.weatherView);
 		nowTemperature = (TextView) rootView.findViewById(R.id.nowTemperature);
 		nowWindSpeed = (TextView) rootView.findViewById(R.id.nowWindSpeed);

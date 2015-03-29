@@ -2,6 +2,7 @@ package models;
 
 public class DayWeather {
 	
+	public String city;
 	public DayWeather.Type type;
 	public float 			temp;
 	

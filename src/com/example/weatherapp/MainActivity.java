@@ -1,6 +1,7 @@
 package com.example.weatherapp;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import models.DayWeatherRequest;
@@ -28,7 +29,7 @@ import fragments.ViewWeatherHourly;
 import fragments.ViewWeatherLong;
 import fragments.ViewWeatherNow;
 
-public class MainActivity extends FragmentActivity implements DayWeatherRequest.OnDayWeatherRequestCompleted {
+public class MainActivity extends FragmentActivity {
 
 	private MyFragmentPageAdapter pagerAdapter;
 	private ViewPager mViewPager;
@@ -36,8 +37,6 @@ public class MainActivity extends FragmentActivity implements DayWeatherRequest.
 	
 	private List<WeatherPlace> locations = new ArrayList<WeatherPlace>();
 	private int selectedIndexLocation = 0;
-	private DayWeatherRequest requestWeather;
-	
 	
 	public static String INTENT_ACTION = "com.example.weatherapp.fragments";
 	public static String FRAGMENT_WEATHER_NOW = "weatherNow";
@@ -71,22 +70,27 @@ public class MainActivity extends FragmentActivity implements DayWeatherRequest.
 	
 	private void requestWeatherData(WeatherPlace place) {
 		Log.d("test", "idzie request do internetow o pogode");
-		Toast.makeText(getApplicationContext(), "Wysylam request o pogode dla "+locations.get(selectedIndexLocation).locationName, Toast.LENGTH_LONG).show();
-		requestWeather = new DayWeatherRequest(this);
-		requestWeather.requestWeatherForLocationForAmountOfDays(place.location, 1);
+		Toast.makeText(getApplicationContext(), "Pobieram pogodê dla lokalizacji: "+locations.get(selectedIndexLocation).locationName, Toast.LENGTH_LONG).show();
+		
+		DayWeatherRequest request = new DayWeatherRequest(new DayWeatherRequest.OnDayWeatherRequestCompleted() {
+			@Override
+			public void onDayWeatherRequestCompleted(DetailedDayWeather[] result) {
+				debugPrintWeather(result);
+				((ViewWeatherNow) fragments.get(0)).setModel(result[0]);
+			}
+		});
+		request.requestWeatherForLocationForAmountOfDays(place.location, 5);
 	}
 	
-	@Override
-	public void onDayWeatherRequestCompleted(DetailedDayWeather[] result) {
-		Log.d("test", "Odebrany request: " + (result==null?("null"):("not null")));
-		Log.d("test", "Count DetailedDayWeather: " + result.length);
-		
-		String test = String.format("[Odebrane dane:] temp: %f\nweather type: %s\nwindSpeed: %f\nhumidity: :%f\ncloud: %f",
-				result[0].temp, result[0].type.toString(), result[0].windSpeed, result[0].humidity, result[0].cloudPercentage);
-		Log.d("test", test);
-		
-		((ViewWeatherNow) fragments.get(0)).setModel(result[0]);
-		
+	private void debugPrintWeather(DetailedDayWeather[] result) {
+		long oneHour = 60*60*1000;
+		Log.d("test", "Debugging receiving array weather, count = " + result.length);
+		Log.d("test", "lp | timestamp | full date | °C  | wnd | hum");
+		for(int i=0; i<result.length; i++) {
+			Date d = new Date(result[i].timestamp * 1000l + oneHour);
+			String dformat = d.toGMTString()+"+1";
+			Log.d("test", String.format("%d | %d | %s | %.1f | %.1f | %.1f", i, result[i].timestamp, dformat, result[i].temp, result[i].windSpeed, result[i].humidity));
+		}
 	}
 	
 	@Override

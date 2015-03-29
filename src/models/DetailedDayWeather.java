@@ -2,7 +2,7 @@ package models;
 
 public class DetailedDayWeather extends DayWeather {
 
-	
+	public long timestamp;
 	public float windSpeed;
 	public float humidity;
 	public float cloudPercentage;

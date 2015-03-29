@@ -19,8 +19,6 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 
-
-
 public class DayWeatherRequest extends AsyncTask<String, String, DetailedDayWeather[]> {
 
 	public interface OnDayWeatherRequestCompleted {
@@ -47,7 +45,6 @@ public class DayWeatherRequest extends AsyncTask<String, String, DetailedDayWeat
 	
 	@Override
 	protected void onPostExecute(DetailedDayWeather[] result) {
-		
 		this.listener.onDayWeatherRequestCompleted(result);
 	}
 
@@ -59,13 +56,13 @@ public class DayWeatherRequest extends AsyncTask<String, String, DetailedDayWeat
 		String requestedJsonString = null;
 		
 		try {
-			
 			URL u = new URL(apiURL);
 			HttpURLConnection c = (HttpURLConnection) u.openConnection();
 			c.setRequestMethod("GET");
 			c.setRequestProperty("Content-length", "0");
 			c.setUseCaches(false);
 			c.connect();
+			Log.d("test", "API: " + apiURL);
 			
 			int status = c.getResponseCode();
 			
@@ -89,21 +86,13 @@ public class DayWeatherRequest extends AsyncTask<String, String, DetailedDayWeat
 				br.close();
 				
 				DetailedDayWeather[] dayWeather = this.interpretJsonDataToArrayOfDayWeather(requestedJsonString);
-				
 				return dayWeather;
-				
 			}
-			
 		} catch (MalformedURLException ex) {
-			
 			Log.i("TAG", "MalformedURLException");
-			
 		} catch (IOException ex) {
-			
 			Log.i("TAG", "IOException");
-			
 		}
-		
 		return null;
 	}
 	
@@ -112,37 +101,26 @@ public class DayWeatherRequest extends AsyncTask<String, String, DetailedDayWeat
 		try {
 			JSONObject jObject = new JSONObject(jsonData);
 			JSONArray jArray = jObject.getJSONArray("list");
+			Log.d("test", "City: " + jObject.getJSONObject("city").getString("name"));
 			
 			for(int i = 0; i < jArray.length(); i++) {
 				JSONObject row = jArray.getJSONObject(i);
 				dayWeatherArrayList.add(this.parseDayWeather(row));
 			}
-			
 		} catch (JSONException e) {
 			Log.e("TAG", e.toString());
-
 		}
-		
 		return dayWeatherArrayList.toArray(new DetailedDayWeather[dayWeatherArrayList.size()]);
-		
-		
 	}
 	
 
 	private DetailedDayWeather parseDayWeather(JSONObject jsObject) {
-		
 		DetailedDayWeather requestedDay = new DetailedDayWeather();
 		try {
-			
-			Log.d("TAG", "BEFORE!!!");
-			// Getting temperature
-			requestedDay.temp = (float) (jsObject.getJSONObject("temp").getDouble("day") - 273.0); //(uugly)
-			Log.d("TAG", "BEFORE2!!!");
+			requestedDay.temp = (float) (jsObject.getJSONObject("temp").getDouble("day") - 273.15); //(uugly)
 			
 			// Getting type of weather - very wague - we don't use a lot of cases
 			int typeId = jsObject.getJSONArray("weather").getJSONObject(0).getInt("id");
-			
-			Log.d("TAG", "B!!!");
 			
 			DayWeather.Type typeOfWeather = null;
 			if(typeId == 800) {
@@ -166,47 +144,51 @@ public class DayWeatherRequest extends AsyncTask<String, String, DetailedDayWeat
 			}
 			
 			requestedDay.type = typeOfWeather;
-			Log.d("TAG",  "typeOfWeather" +typeId);
+			//Log.d("TAG",  "typeOfWeather" +typeId);
 			// Getting the windSpeed
-			
-			requestedDay.windSpeed = (float) jsObject.getDouble("speed");
-			requestedDay.humidity  = (float) jsObject.getDouble("humidity");
-			requestedDay.cloudPercentage = (float) jsObject.getDouble("clouds");
-			requestedDay.pressure = (float) jsObject.getDouble("pressure");
+			requestedDay.timestamp = jsObject.getInt("dt");
  			
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			
-			Log.d("TAG", "JSONException!!!");
-			e.printStackTrace();
+			Log.d("TAG", "[DayWeatherRequest::parseDayWeather] Catch: " + e.getMessage());
 		}
 		
-		try {
-			requestedDay.rainMinimeters = (float) jsObject.getDouble("rain");
-		} catch(JSONException e) {
-			requestedDay.rainMinimeters = 0.0f;
-		}
-		
-		try {
-			requestedDay.snowMinimeters = (float) jsObject.getDouble("snow");
-		} catch(JSONException e) {
-			requestedDay.snowMinimeters = 0.0f;
-		}
+		requestedDay.windSpeed = (float) getDoubleJSON(jsObject, "speed");
+		requestedDay.humidity  = (float) getDoubleJSON(jsObject, "humidity");
+		requestedDay.cloudPercentage = (float) getDoubleJSON(jsObject, "clouds");
+		requestedDay.pressure = (float) getDoubleJSON(jsObject, "pressure");
+		requestedDay.rainMinimeters = (float) getDoubleJSON(jsObject, "rain");
+		requestedDay.snowMinimeters = (float) getDoubleJSON(jsObject, "snow");
+
 		
 		return requestedDay;
 	}
 	
+	private double getDoubleJSON(JSONObject object, String key) {
+		double res = 0.0d;
+		if(object.isNull(key)) res = 0.0d;
+		else {
+			try {
+				res = object.getDouble(key);
+			} catch (JSONException e) {
+				Log.d("test", "[DayWeatherRequest::getDoubleJson] " + e.getMessage());
+			}
+		}
+		return res;
+	}
 	
 	public void requestWeatherForLocationForAmountOfDays(Location location, Integer daysCount) {
 		
+		String latitude = Double.toString(location.getLatitude()).replace(',', '.');
+		String longitude = Double.toString(location.getLongitude()).replace(',', '.');
+		
 		String requestURL = 
 				   String.format(SERVER + 
-				  LATITUDE_PARAM_NAME  	+ "%f" + GET_DELIMITER + 
-				  LONGITUDE_PARAM_NAME 	+ "%f" + GET_DELIMITER +  
+				  LATITUDE_PARAM_NAME  	+ "%s" + GET_DELIMITER + 
+				  LONGITUDE_PARAM_NAME 	+ "%s" + GET_DELIMITER +  
 				  CNT_DAYS				+ "%f" + GET_DELIMITER + 
 				  MODE					+ "json", 
-				  location.getLatitude(),
-				  location.getLongitude(),
+				  latitude,
+				  longitude,
 				  (float) daysCount);
 		
 		

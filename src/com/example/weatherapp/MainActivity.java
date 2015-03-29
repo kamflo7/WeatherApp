@@ -60,7 +60,7 @@ public class MainActivity extends FragmentActivity {
 		
 		initBarAndNavigation();
 
-		locations.add(new WeatherPlace("KrakÛw", 50.08, 19.92));
+		locations.add(new WeatherPlace("Krak√õw", 50.08, 19.92));
 		locations.add(new WeatherPlace("Szczecin", 53.4252, 14.5555));
 		locations.add(new WeatherPlace("Los Angeles", 34.0535, 118.245));
 		locations.add(new WeatherPlace("Miami", 25.7748, -80.1977));
@@ -71,7 +71,7 @@ public class MainActivity extends FragmentActivity {
 	
 	private void requestWeatherData(WeatherPlace place) {
 		Log.d("test", "Idzie request do internetow o pogode");
-		Toast.makeText(getApplicationContext(), "Pobieram pogodÍ dla lokalizacji: "+locations.get(selectedIndexLocation).locationName, Toast.LENGTH_LONG).show();
+		Toast.makeText(getApplicationContext(), "Pobieram pogod√ç dla lokalizacji: "+locations.get(selectedIndexLocation).locationName, Toast.LENGTH_LONG).show();
 		
 		DayWeatherRequest requestNowAndLong = new DayWeatherRequest(new DayWeatherRequest.OnDayWeatherRequestCompleted() {
 			@Override
@@ -103,7 +103,7 @@ public class MainActivity extends FragmentActivity {
 	private void debugPrintWeather(DetailedDayWeather[] result) {
 		long oneHour = 60*60*1000;
 		Log.d("test", "Debugging receiving array weather, count = " + result.length);
-		Log.d("test", "lp | timestamp | full date | ∞C  | wnd | hum");
+		Log.d("test", "lp | timestamp | full date | ‚àûC  | wnd | hum");
 		for(int i=0; i<result.length; i++) {
 			Date d = new Date(result[i].timestamp * 1000l + oneHour);
 			String dformat = d.toGMTString()+"+1";
@@ -171,7 +171,7 @@ public class MainActivity extends FragmentActivity {
 				.setTabListener(tabListener));
 		actionBar.addTab(actionBar.newTab().setText("Godzinowa")
 				.setTabListener(tabListener));
-		actionBar.addTab(actionBar.newTab().setText("D≥ugoterminowa")
+		actionBar.addTab(actionBar.newTab().setText("D‚â•ugoterminowa")
 				.setTabListener(tabListener));
 	}
 

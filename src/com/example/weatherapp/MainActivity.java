@@ -1,6 +1,7 @@
 package com.example.weatherapp;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -60,17 +61,21 @@ public class MainActivity extends FragmentActivity {
 		
 		initBarAndNavigation();
 
+		// latitude longitude
 		locations.add(new WeatherPlace("Kraków", 50.08, 19.92));
 		locations.add(new WeatherPlace("Szczecin", 53.4252, 14.5555));
 		locations.add(new WeatherPlace("Los Angeles", 34.0535, 118.245));
 		locations.add(new WeatherPlace("Miami", 25.7748, -80.1977));
+		locations.add(new WeatherPlace("Kair", 30.05, 31.2486));
+		locations.add(new WeatherPlace("Tokio", 35.689499, 139.691711));
+		locations.add(new WeatherPlace("Bangkok", 13.75, 100.51667));
 		
 		requestWeatherData(locations.get(selectedIndexLocation));
 	}
 
 	
 	private void requestWeatherData(WeatherPlace place) {
-		Log.d("test", "Idzie request do internetow o pogode");
+		Log.d("test", "Id¹ requesty o pogode do internetów");
 		Toast.makeText(getApplicationContext(), "Pobieram pogodê dla lokalizacji: "+locations.get(selectedIndexLocation).locationName, Toast.LENGTH_LONG).show();
 		
 		DayWeatherRequest requestNowAndLong = new DayWeatherRequest(new DayWeatherRequest.OnDayWeatherRequestCompleted() {
@@ -82,10 +87,12 @@ public class MainActivity extends FragmentActivity {
 				now.setToNow();
 				Log.d("test", "Current time in smartphone is: " + String.format("%d-%d-%d %d:%d", now.year, now.month+1, now.monthDay, now.hour, now.minute));
 				
+				Calendar mydate = Calendar.getInstance();
 				int startIndexForWeatherToday = 0;
 				for(int i=0; i<result.length; i++) {
-					Date d = new Date(result[i].timestamp);
-					if(d.getDay() == now.monthDay) {
+					mydate.setTimeInMillis(result[i].timestamp*1000);
+					
+					if(mydate.get(Calendar.DAY_OF_MONTH) == now.monthDay) {
 						startIndexForWeatherToday = i;
 						break;
 					}
@@ -97,7 +104,36 @@ public class MainActivity extends FragmentActivity {
 				((ViewWeatherLong) fragments.get(2)).setModel(result, startIndexForWeatherToday);
 			}
 		});
-		requestNowAndLong.requestWeatherForLocationForAmountOfDays(place.location, 5);
+		requestNowAndLong.requestWeatherForLocationForAmountOfDays(place.location, 5, DayWeatherRequest.RequestType.TYPE_DAILY);
+		
+		DayWeatherRequest requestHourly = new DayWeatherRequest(new DayWeatherRequest.OnDayWeatherRequestCompleted() {
+			@Override
+			public void onDayWeatherRequestCompleted(DetailedDayWeather[] result) {
+				Log.d("test", "--------------------------\nTeraz request godzinowy");
+				debugPrintWeather(result);
+				
+				Time now = new Time();
+				now.setToNow();
+				
+				Log.d("test", "Current time in smartphone is: " + String.format("%d-%d-%d %d:%d", now.year, now.month+1, now.monthDay, now.hour, now.minute));
+				
+				Calendar mydate = Calendar.getInstance();
+				int startIndexForWeatherToday = 0;
+				for(int i=0; i<result.length; i++) {
+					mydate.setTimeInMillis(result[i].timestamp*1000);
+					
+					if(mydate.get(Calendar.DAY_OF_MONTH) == now.monthDay) {
+						startIndexForWeatherToday = i;
+						break;
+					}
+				}
+				
+				Log.d("test", "Calculated index for weather today is " + startIndexForWeatherToday);
+				
+				((ViewWeatherHourly) fragments.get(1)).setModel(result, startIndexForWeatherToday);
+			}
+		});
+		requestHourly.requestWeatherForLocationForAmountOfDays(place.location, 10, DayWeatherRequest.RequestType.TYPE_HOURLY);
 	}
 	
 	private void debugPrintWeather(DetailedDayWeather[] result) {

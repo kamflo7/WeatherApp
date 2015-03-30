@@ -1,5 +1,7 @@
 package fragments;
 
+import models.DetailedDayWeather;
+
 import com.example.weatherapp.MainActivity;
 import com.example.weatherapp.R;
 
@@ -9,10 +11,18 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
+import android.widget.TextView;
 
 public class ViewWeatherHourly extends Fragment {
-    public static final String ARG_OBJECT = "object";
-
+	private DetailedDayWeather[] model = null;
+    private int startIndex;
+    
+    public void setModel(DetailedDayWeather[] arr, int start) {
+    	model = arr;
+    	startIndex = start;
+    }
+	
     @Override
     public View onCreateView(LayoutInflater inflater,
             ViewGroup container, Bundle savedInstanceState) {

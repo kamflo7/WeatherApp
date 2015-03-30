@@ -22,13 +22,13 @@ public class MonitoringActivity extends Activity implements BeaconConsumer {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
        
-        BeaconParser estimoteParser = new BeaconParser().setBeaconLayout("m:2-3=0215,i:4-19,i:20-21,i:22-23,p:24-24");
+        /*BeaconParser estimoteParser = new BeaconParser().setBeaconLayout("m:2-3=0215,i:4-19,i:20-21,i:22-23,p:24-24");
         
         beaconManager = BeaconManager.getInstanceForApplication(this);
         beaconManager.getBeaconParsers().add(estimoteParser);
         beaconManager.bind(this);
+        */
         
-      
         
     }
     @Override 
@@ -52,8 +52,6 @@ public class MonitoringActivity extends Activity implements BeaconConsumer {
         try {
             beaconManager.startRangingBeaconsInRegion(new Region("myRangingUniqueId", null, null, null));
         } catch (RemoteException e) {    }
-    	
-    	
     	
     	
         beaconManager.setMonitorNotifier(new MonitorNotifier() {

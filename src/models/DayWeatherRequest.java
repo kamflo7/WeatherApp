@@ -181,6 +181,7 @@ public class DayWeatherRequest extends AsyncTask<String, String, DetailedDayWeat
 	
 	public void requestWeatherForLocationForAmountOfDays(Location location, Integer daysCount) {
 		
+	
 		String latitude = Double.toString(location.getLatitude()).replace(',', '.');
 		String longitude = Double.toString(location.getLongitude()).replace(',', '.');
 		
@@ -193,7 +194,6 @@ public class DayWeatherRequest extends AsyncTask<String, String, DetailedDayWeat
 				  latitude,
 				  longitude,
 				  (float) daysCount);
-		
 		
 		this.execute(requestURL);
 	}

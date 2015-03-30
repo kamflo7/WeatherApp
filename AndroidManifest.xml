@@ -15,11 +15,13 @@
         android:targetSdkVersion="21" />
 
     <application
+        android:name="com.example.weatherapp.WayOutApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
+            android:launchMode="singleInstance"  
             android:name="com.example.weatherapp.MonitoringActivity"
             android:label="@string/app_name" >
             <intent-filter>

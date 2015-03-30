@@ -62,7 +62,7 @@ public class MainActivity extends FragmentActivity {
 		initBarAndNavigation();
 
 		// latitude longitude
-		locations.add(new WeatherPlace("Kraków", 50.08, 19.92));
+		locations.add(new WeatherPlace("Krakï¿½w", 50.08, 19.92));
 		locations.add(new WeatherPlace("Szczecin", 53.4252, 14.5555));
 		locations.add(new WeatherPlace("Los Angeles", 34.0535, 118.245));
 		locations.add(new WeatherPlace("Miami", 25.7748, -80.1977));
@@ -75,36 +75,36 @@ public class MainActivity extends FragmentActivity {
 
 	
 	private void requestWeatherData(WeatherPlace place) {
-		Log.d("test", "Id¹ requesty o pogode do internetów");
-		Toast.makeText(getApplicationContext(), "Pobieram pogodê dla lokalizacji: "+locations.get(selectedIndexLocation).locationName, Toast.LENGTH_LONG).show();
+		Log.d("test", "Idï¿½ requesty o pogode do internetï¿½w");
+		Toast.makeText(getApplicationContext(), "Pobieram pogodï¿½ dla lokalizacji: "+locations.get(selectedIndexLocation).locationName, Toast.LENGTH_LONG).show();
 		
-		DayWeatherRequest requestNowAndLong = new DayWeatherRequest(new DayWeatherRequest.OnDayWeatherRequestCompleted() {
-			@Override
-			public void onDayWeatherRequestCompleted(DetailedDayWeather[] result) {
-				debugPrintWeather(result);
-				
-				Time now = new Time();
-				now.setToNow();
-				Log.d("test", "Current time in smartphone is: " + String.format("%d-%d-%d %d:%d", now.year, now.month+1, now.monthDay, now.hour, now.minute));
-				
-				Calendar mydate = Calendar.getInstance();
-				int startIndexForWeatherToday = 0;
-				for(int i=0; i<result.length; i++) {
-					mydate.setTimeInMillis(result[i].timestamp*1000);
-					
-					if(mydate.get(Calendar.DAY_OF_MONTH) == now.monthDay) {
-						startIndexForWeatherToday = i;
-						break;
-					}
-				}
-				
-				Log.d("test", "Calculated index for weather today is " + startIndexForWeatherToday);
-				
-				((ViewWeatherNow) fragments.get(0)).setModel(result[startIndexForWeatherToday]);
-				((ViewWeatherLong) fragments.get(2)).setModel(result, startIndexForWeatherToday);
-			}
-		});
-		requestNowAndLong.requestWeatherForLocationForAmountOfDays(place.location, 5, DayWeatherRequest.RequestType.TYPE_DAILY);
+//		DayWeatherRequest requestNowAndLong = new DayWeatherRequest(new DayWeatherRequest.OnDayWeatherRequestCompleted() {
+//			@Override
+//			public void onDayWeatherRequestCompleted(DetailedDayWeather[] result) {
+//				debugPrintWeather(result);
+//				
+//				Time now = new Time();
+//				now.setToNow();
+//				Log.d("test", "Current time in smartphone is: " + String.format("%d-%d-%d %d:%d", now.year, now.month+1, now.monthDay, now.hour, now.minute));
+//				
+//				Calendar mydate = Calendar.getInstance();
+//				int startIndexForWeatherToday = 0;
+//				for(int i=0; i<result.length; i++) {
+//					mydate.setTimeInMillis(result[i].timestamp*1000);
+//					
+//					if(mydate.get(Calendar.DAY_OF_MONTH) == now.monthDay) {
+//						startIndexForWeatherToday = i;
+//						break;
+//					}
+//				}
+//				
+//				Log.d("test", "Calculated index for weather today is " + startIndexForWeatherToday);
+//				
+//				((ViewWeatherNow) fragments.get(0)).setModel(result[startIndexForWeatherToday]);
+//				((ViewWeatherLong) fragments.get(2)).setModel(result, startIndexForWeatherToday);
+//			}
+//		});
+//		requestNowAndLong.requestWeatherForLocationForAmountOfDays(place.location, 5, DayWeatherRequest.RequestType.TYPE_DAILY);
 		
 		DayWeatherRequest requestHourly = new DayWeatherRequest(new DayWeatherRequest.OnDayWeatherRequestCompleted() {
 			@Override
@@ -129,17 +129,18 @@ public class MainActivity extends FragmentActivity {
 				}
 				
 				Log.d("test", "Calculated index for weather today is " + startIndexForWeatherToday);
-				
+				((ViewWeatherNow) fragments.get(0)).setModel(result[startIndexForWeatherToday]);
+				((ViewWeatherLong) fragments.get(2)).setModel(result, startIndexForWeatherToday);
 				((ViewWeatherHourly) fragments.get(1)).setModel(result, startIndexForWeatherToday);
 			}
 		});
-		requestHourly.requestWeatherForLocationForAmountOfDays(place.location, 10, DayWeatherRequest.RequestType.TYPE_HOURLY);
+		requestHourly.requestWeatherForLocationForAmountOfDays(place.location, 40, DayWeatherRequest.RequestType.TYPE_HOURLY);
 	}
 	
 	private void debugPrintWeather(DetailedDayWeather[] result) {
 		long oneHour = 60*60*1000;
 		Log.d("test", "Debugging receiving array weather, count = " + result.length);
-		Log.d("test", "lp | timestamp | full date | °C  | wnd | hum");
+		Log.d("test", "lp | timestamp | full date | ï¿½C  | wnd | hum");
 		for(int i=0; i<result.length; i++) {
 			Date d = new Date(result[i].timestamp * 1000l + oneHour);
 			String dformat = d.toGMTString()+"+1";
@@ -207,7 +208,7 @@ public class MainActivity extends FragmentActivity {
 				.setTabListener(tabListener));
 		actionBar.addTab(actionBar.newTab().setText("Godzinowa")
 				.setTabListener(tabListener));
-		actionBar.addTab(actionBar.newTab().setText("D³ugoterminowa")
+		actionBar.addTab(actionBar.newTab().setText("Dï¿½ugoterminowa")
 				.setTabListener(tabListener));
 	}
 

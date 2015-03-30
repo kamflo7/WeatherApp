@@ -50,6 +50,6 @@ public class LongRowAdapter extends ArrayAdapter<DetailedDayWeather> {
 //	
 //	static class RowHolder {
 //		ImageView image;
-//		TextView textView;
+//		TextView tempView, rainView, windView;
 //	}
 }

@@ -19,10 +19,12 @@ public class ViewWeatherLong extends Fragment {
     
     private ListView listView;
     private TextView city;
+    private LongRowAdapter adapter;
     
     public void setModel(DetailedDayWeather[] arr, int start) {
     	model = arr;
     	startIndex = start;
+    	adapter = new LongRowAdapter(this.getActivity().getApplicationContext(), R.layout.long_item_layout, model, startIndex);
     }
 
     @Override
@@ -44,7 +46,6 @@ public class ViewWeatherLong extends Fragment {
     }
     
     private void updateView() {
-    	//LongRowAdapter adapter = new LongRowAdapter(getActivity().getApplicationContext(), R.layout.long_item_layout, model, startIndex);
-        //listView.setAdapter(adapter);
+        listView.setAdapter(adapter);
     }
 }

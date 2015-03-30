@@ -44,7 +44,7 @@ public class ViewWeatherLong extends Fragment {
     }
     
     private void updateView() {
-    	LongRowAdapter adapter = new LongRowAdapter(getActivity().getApplicationContext(), R.layout.long_item_layout, model, startIndex);
-        listView.setAdapter(adapter);
+    	//LongRowAdapter adapter = new LongRowAdapter(getActivity().getApplicationContext(), R.layout.long_item_layout, model, startIndex);
+        //listView.setAdapter(adapter);
     }
 }

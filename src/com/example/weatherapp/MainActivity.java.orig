@@ -61,8 +61,12 @@ public class MainActivity extends FragmentActivity {
 		
 		initBarAndNavigation();
 
+<<<<<<< HEAD
+		locations.add(new WeatherPlace("KrakÃ›w", 50.08, 19.92));
+=======
 		// latitude longitude
 		locations.add(new WeatherPlace("Kraków", 50.08, 19.92));
+>>>>>>> kamil
 		locations.add(new WeatherPlace("Szczecin", 53.4252, 14.5555));
 		locations.add(new WeatherPlace("Los Angeles", 34.0535, 118.245));
 		locations.add(new WeatherPlace("Miami", 25.7748, -80.1977));
@@ -75,8 +79,13 @@ public class MainActivity extends FragmentActivity {
 
 	
 	private void requestWeatherData(WeatherPlace place) {
+<<<<<<< HEAD
+		Log.d("test", "Idzie request do internetow o pogode");
+		Toast.makeText(getApplicationContext(), "Pobieram pogodÃ dla lokalizacji: "+locations.get(selectedIndexLocation).locationName, Toast.LENGTH_LONG).show();
+=======
 		Log.d("test", "Id¹ requesty o pogode do internetów");
 		Toast.makeText(getApplicationContext(), "Pobieram pogodê dla lokalizacji: "+locations.get(selectedIndexLocation).locationName, Toast.LENGTH_LONG).show();
+>>>>>>> kamil
 		
 		DayWeatherRequest requestNowAndLong = new DayWeatherRequest(new DayWeatherRequest.OnDayWeatherRequestCompleted() {
 			@Override
@@ -139,7 +148,7 @@ public class MainActivity extends FragmentActivity {
 	private void debugPrintWeather(DetailedDayWeather[] result) {
 		long oneHour = 60*60*1000;
 		Log.d("test", "Debugging receiving array weather, count = " + result.length);
-		Log.d("test", "lp | timestamp | full date | °C  | wnd | hum");
+		Log.d("test", "lp | timestamp | full date | âˆžC  | wnd | hum");
 		for(int i=0; i<result.length; i++) {
 			Date d = new Date(result[i].timestamp * 1000l + oneHour);
 			String dformat = d.toGMTString()+"+1";
@@ -207,7 +216,7 @@ public class MainActivity extends FragmentActivity {
 				.setTabListener(tabListener));
 		actionBar.addTab(actionBar.newTab().setText("Godzinowa")
 				.setTabListener(tabListener));
-		actionBar.addTab(actionBar.newTab().setText("D³ugoterminowa")
+		actionBar.addTab(actionBar.newTab().setText("Dâ‰¥ugoterminowa")
 				.setTabListener(tabListener));
 	}
 

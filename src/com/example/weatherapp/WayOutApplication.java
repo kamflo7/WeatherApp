@@ -1,4 +1,7 @@
 package com.example.weatherapp;
+import models.DayWeatherRequest;
+import models.DetailedDayWeather;
+
 import org.altbeacon.beacon.BeaconManager;
 import org.altbeacon.beacon.BeaconParser;
 import org.altbeacon.beacon.Identifier;
@@ -15,12 +18,13 @@ import android.app.PendingIntent;
 import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 
-public class WayOutApplication extends Application implements BootstrapNotifier {
+public class WayOutApplication extends Application implements BootstrapNotifier, DayWeatherRequest.OnDayWeatherRequestCompleted {
 
 	
 	 private static final String TAG = ".MyApplicationName";
@@ -28,6 +32,8 @@ public class WayOutApplication extends Application implements BootstrapNotifier 
 	    private BeaconManager beaconManager;
 	    private Region region;
 	    private BackgroundPowerSaver backgroundPowerSaver;
+	    
+	    private DayWeatherRequest request;
 
 	    @Override
 	    public void onCreate() {
@@ -69,7 +75,19 @@ public class WayOutApplication extends Application implements BootstrapNotifier 
 	    @Override
 	    public void didEnterRegion(Region arg0) {
 	        Log.d(TAG, "Got a didEnterRegion call");
-	    	this.showRainNotification(); // We just show notification, that when clicked will 
+	        
+	        this.request = new DayWeatherRequest(this);
+	        
+	        Location cracow = new Location("");//provider name is unecessary
+	        cracow.setLatitude(50.06465d);//your coords of course
+	        cracow.setLongitude(19.94498d);	        
+	        this.request.requestWeatherForLocationForAmountOfDays(cracow, 1, DayWeatherRequest.RequestType.TYPE_HOURLY);
+	        
+	        // Ask here for weather
+	    	
+	    	
+	    	
+
 	    	
 	        // This call to disable will make it so the activity below only gets launched the first time a beacon is seen (until the next time the app is launched)
 	        // if you want the Activity to launch every single time beacons come into view, remove this call.  
@@ -101,7 +119,7 @@ public class WayOutApplication extends Application implements BootstrapNotifier 
 	    	mBuilder.setPriority(NotificationCompat.PRIORITY_MAX);
 	    	mBuilder.setDefaults(Notification.DEFAULT_SOUND);
 	    	// Creates an explicit intent for an Activity in your app
-	    	Intent resultIntent = new Intent(this, MonitoringActivity.class);
+	    	Intent resultIntent = new Intent(this, MainActivity.class);
 
 	    	// The stack builder object will contain an artificial back stack for the
 	    	// started Activity.
@@ -109,7 +127,7 @@ public class WayOutApplication extends Application implements BootstrapNotifier 
 	    	// your application to the Home screen.
 	    	TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
 	    	// Adds the back stack for the Intent (but not the Intent itself)
-	    	stackBuilder.addParentStack(MonitoringActivity.class);
+	    	stackBuilder.addParentStack(MainActivity.class);
 	    	// Adds the Intent that starts the Activity to the top of the stack
 	    	stackBuilder.addNextIntent(resultIntent);
 	    	PendingIntent resultPendingIntent =
@@ -123,6 +141,20 @@ public class WayOutApplication extends Application implements BootstrapNotifier 
 	    	// mId allows you to update the notification later on.
 	    	mNotificationManager.notify(12, mBuilder.build());
 	    }
+
+		@Override
+		public void onDayWeatherRequestCompleted(DetailedDayWeather[] result) {
+			
+			
+			Log.d(TAG, result[0].rainMinimeters + " onDayWeatherRequestCompleted");
+			
+			if(result[0].rainMinimeters >  0) {
+				this.showRainNotification(); // We just show notification, that when clicked will 
+			}
+			
+			// TODO Auto-generated method stub
+			
+		}
 	
 	
 	

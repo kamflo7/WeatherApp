@@ -27,7 +27,7 @@ public class DayWeatherRequest extends AsyncTask<String, String, DetailedDayWeat
 	
 	private OnDayWeatherRequestCompleted listener;
 	static String TAG 					= "APIJSONAsyncTask";
-	static String SERVER 				= "http://api.openweathermap.org/data/2.5/forecast/";//daily?
+	static String SERVER 				= "http://api.openweathermap.org/data/2.5/forecast/";  //daily?
 	static String LATITUDE_PARAM_NAME 	= "lat=";
 	static String LONGITUDE_PARAM_NAME 	= "lon=";
 	static String CNT_DAYS 				= "cnt=";

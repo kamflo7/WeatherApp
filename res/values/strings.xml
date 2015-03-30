@@ -15,7 +15,7 @@
     <string name="humidity">Wilgotność</string>
     
     <!-- Strings for notification -->
-    <string name="take_umbrella_with_you">Weź parasol sobą!</string>
+    <string name="take_umbrella_with_you">Weź parasol ze sobą!</string>
 	<string name="it_looks_like_its_going_to_rain">Wygląda na to że będzie dzisiaj padać</string>
 
 	

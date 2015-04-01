@@ -62,7 +62,7 @@ public class MainActivity extends FragmentActivity {
 		initBarAndNavigation();
 
 		// latitude longitude
-		locations.add(new WeatherPlace("Krakï¿½w", 50.08, 19.92));
+		locations.add(new WeatherPlace("Kraków", 50.08, 19.92));
 		locations.add(new WeatherPlace("Szczecin", 53.4252, 14.5555));
 		locations.add(new WeatherPlace("Los Angeles", 34.0535, 118.245));
 		locations.add(new WeatherPlace("Miami", 25.7748, -80.1977));
@@ -75,8 +75,8 @@ public class MainActivity extends FragmentActivity {
 
 	
 	private void requestWeatherData(WeatherPlace place) {
-		Log.d("test", "Idï¿½ requesty o pogode do internetï¿½w");
-		Toast.makeText(getApplicationContext(), "Pobieram pogodï¿½ dla lokalizacji: "+locations.get(selectedIndexLocation).locationName, Toast.LENGTH_LONG).show();
+		Log.d("test", "Idzie request o pogode");
+		Toast.makeText(getApplicationContext(), "Pobieram pogodê½ dla lokalizacji: "+locations.get(selectedIndexLocation).locationName, Toast.LENGTH_LONG).show();
 		
 //		DayWeatherRequest requestNowAndLong = new DayWeatherRequest(new DayWeatherRequest.OnDayWeatherRequestCompleted() {
 //			@Override
@@ -131,7 +131,7 @@ public class MainActivity extends FragmentActivity {
 				Log.d("test", "Calculated index for weather today is " + startIndexForWeatherToday);
 				((ViewWeatherNow) fragments.get(0)).setModel(result[startIndexForWeatherToday]);
 				((ViewWeatherLong) fragments.get(2)).setModel(result, startIndexForWeatherToday);
-				((ViewWeatherHourly) fragments.get(1)).setModel(result, startIndexForWeatherToday);
+				//((ViewWeatherHourly) fragments.get(1)).setModel(result, startIndexForWeatherToday);
 			}
 		});
 		requestHourly.requestWeatherForLocationForAmountOfDays(place.location, 40, DayWeatherRequest.RequestType.TYPE_HOURLY);
@@ -208,7 +208,7 @@ public class MainActivity extends FragmentActivity {
 				.setTabListener(tabListener));
 		actionBar.addTab(actionBar.newTab().setText("Godzinowa")
 				.setTabListener(tabListener));
-		actionBar.addTab(actionBar.newTab().setText("Dï¿½ugoterminowa")
+		actionBar.addTab(actionBar.newTab().setText("D³ugoterminowa")
 				.setTabListener(tabListener));
 	}
 

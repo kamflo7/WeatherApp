@@ -33,7 +33,7 @@ public class LongRowAdapter extends ArrayAdapter<DetailedDayWeather> {
 		RowHolder holder = null;
 		
 		if(row == null) {
-			LayoutInflater inflater = ((Activity) context).getLayoutInflater();
+			LayoutInflater inflater = (LayoutInflater) context.getSystemService( Context.LAYOUT_INFLATER_SERVICE );//((Activity) context).getLayoutInflater();
 			row = inflater.inflate(layoutResourceID, parent, false);
 			
 			holder = new RowHolder();

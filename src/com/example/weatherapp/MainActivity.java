@@ -16,6 +16,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -70,13 +72,18 @@ public class MainActivity extends FragmentActivity {
 		locations.add(new WeatherPlace("Tokio", 35.689499, 139.691711));
 		locations.add(new WeatherPlace("Bangkok", 13.75, 100.51667));
 		
-		requestWeatherData(locations.get(selectedIndexLocation));
+
+		requestWeatherData(locations.get(selectedIndexLocation)); 
 	}
 
 	
 	private void requestWeatherData(WeatherPlace place) {
-		Log.d("test", "Idzie request o pogode");
-		Toast.makeText(getApplicationContext(), "Pobieram pogodê½ dla lokalizacji: "+locations.get(selectedIndexLocation).locationName, Toast.LENGTH_LONG).show();
+		if(!haveNetworkConnection()) {
+			Toast.makeText(getApplicationContext(), "Sorry, brak internetu.", Toast.LENGTH_LONG).show();
+			return;
+		}
+		
+		Toast.makeText(getApplicationContext(), "Pobieram pogodê dla lokalizacji: "+locations.get(selectedIndexLocation).locationName, Toast.LENGTH_LONG).show();
 		
 //		DayWeatherRequest requestNowAndLong = new DayWeatherRequest(new DayWeatherRequest.OnDayWeatherRequestCompleted() {
 //			@Override
@@ -146,6 +153,23 @@ public class MainActivity extends FragmentActivity {
 			String dformat = d.toGMTString()+"+1";
 			Log.d("test", String.format("%d | %d | %s | %.1f | %.1f | %.1f", i, result[i].timestamp, dformat, result[i].temp, result[i].windSpeed, result[i].humidity));
 		}
+	}
+	
+	private boolean haveNetworkConnection() {
+	    boolean haveConnectedWifi = false;
+	    boolean haveConnectedMobile = false;
+
+	    ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+	    NetworkInfo[] netInfo = cm.getAllNetworkInfo();
+	    for (NetworkInfo ni : netInfo) {
+	        if (ni.getTypeName().equalsIgnoreCase("WIFI"))
+	            if (ni.isConnected())
+	                haveConnectedWifi = true;
+	        if (ni.getTypeName().equalsIgnoreCase("MOBILE"))
+	            if (ni.isConnected())
+	                haveConnectedMobile = true;
+	    }
+	    return haveConnectedWifi || haveConnectedMobile;
 	}
 	
 	@Override

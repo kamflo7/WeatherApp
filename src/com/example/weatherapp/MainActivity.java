@@ -187,6 +187,7 @@ public class MainActivity extends FragmentActivity {
 	private void initBarAndNavigation() {
 		final ActionBar actionBar = getActionBar();
 		mViewPager = (ViewPager) findViewById(R.id.pager);
+		mViewPager.setPageTransformer(true, new ZoomOutPageTransformer());
 		
 		fragments.add(Fragment.instantiate(this, ViewWeatherNow.class.getName()));
 		fragments.add(Fragment.instantiate(this, ViewWeatherHourly.class.getName()));

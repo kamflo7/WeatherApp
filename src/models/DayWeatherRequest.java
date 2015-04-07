@@ -206,6 +206,7 @@ public class DayWeatherRequest extends AsyncTask<String, String, DetailedDayWeat
 			//Log.d("TAG",  "typeOfWeather" +typeId);
 			// Getting the windSpeed
 			requestedDay.timestamp = jsObject.getInt("dt");
+			requestedDay.city = this.city;
  			
 		} catch (JSONException e) {
 			Log.d("TAG", "[DayWeatherRequest::parseDayWeather] Catch: " + e.getMessage());

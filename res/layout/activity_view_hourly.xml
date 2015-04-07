@@ -16,7 +16,7 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="5dp"
-            android:text="Kraków, PL"
+            android:text="Undefined"
             android:textColor="#ffffff"
             android:textSize="20sp"
             android:textStyle="italic" />

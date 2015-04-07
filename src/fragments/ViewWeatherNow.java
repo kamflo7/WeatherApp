@@ -15,6 +15,7 @@ import com.example.weatherapp.R;
 
 public class ViewWeatherNow extends Fragment {
     public static final String ARG_OBJECT = "object";
+    private boolean viewIsDestroy = true;
 
     public ImageView imageViewNow;
     public TextView nowCity, nowTemperature, nowWindSpeed, nowCloudPercentage, nowSnow, nowRain, nowPressure, nowHumidity;
@@ -27,6 +28,8 @@ public class ViewWeatherNow extends Fragment {
     }
     
     private void updateView() {
+    	if(viewIsDestroy) return;
+    	
 		nowTemperature.setText(model.temp + "°C");
 		
 		nowCity.setText(model.city);
@@ -51,6 +54,12 @@ public class ViewWeatherNow extends Fragment {
     }
     
     @Override
+    public void onDestroy() {
+    	super.onDestroy();
+    	viewIsDestroy = true;
+    }
+    
+    @Override
     public View onCreateView(LayoutInflater inflater,
             ViewGroup container, Bundle savedInstanceState) {
 
@@ -70,6 +79,8 @@ public class ViewWeatherNow extends Fragment {
 		nowRain = (TextView) rootView.findViewById(R.id.nowRain);
 		nowPressure = (TextView) rootView.findViewById(R.id.nowPressure);
 		nowHumidity = (TextView) rootView.findViewById(R.id.nowHumidity);
+		
+		viewIsDestroy = false;
 		
 		if(model != null) updateView();
         return rootView;

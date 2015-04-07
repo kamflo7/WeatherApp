@@ -131,7 +131,7 @@ public class MainActivity extends FragmentActivity {
 				Log.d("test", "Calculated index for weather today is " + startIndexForWeatherToday);
 				((ViewWeatherNow) fragments.get(0)).setModel(result[startIndexForWeatherToday]);
 				((ViewWeatherLong) fragments.get(2)).setModel(result, startIndexForWeatherToday);
-				//((ViewWeatherHourly) fragments.get(1)).setModel(result, startIndexForWeatherToday);
+				((ViewWeatherHourly) fragments.get(1)).setModel(result, startIndexForWeatherToday);
 			}
 		});
 		requestHourly.requestWeatherForLocationForAmountOfDays(place.location, 40, DayWeatherRequest.RequestType.TYPE_HOURLY);

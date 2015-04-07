@@ -13,14 +13,14 @@ import android.widget.TextView;
 
 import com.example.weatherapp.R;
 
-public class LongRowAdapter extends ArrayAdapter<DetailedDayWeather> {
+public class HourlyRowAdapter extends ArrayAdapter<DetailedDayWeather> {
 	
 	private Context context;
 	private int layoutResourceID;
 	private DetailedDayWeather[] data;
 	private Calendar calendar;
 	
-	public LongRowAdapter(Context context, int layoutResourceID, DetailedDayWeather[] data) {
+	public HourlyRowAdapter(Context context, int layoutResourceID, DetailedDayWeather[] data) {
 		super(context, layoutResourceID, data);
 		this.context = context;
 		this.layoutResourceID = layoutResourceID;
@@ -59,20 +59,7 @@ public class LongRowAdapter extends ArrayAdapter<DetailedDayWeather> {
 		holder.windView.setText(item.windSpeed+"km/h");
 		holder.humidityView.setText(item.humidity+"%");
 		
-		String dateTitle = "";
-		
-		switch(calendar.get(Calendar.DAY_OF_WEEK)) {
-		case Calendar.MONDAY: dateTitle = "Poniedzia³ek"; break;
-		case Calendar.TUESDAY: dateTitle = "Wtorek"; break;
-		case Calendar.WEDNESDAY: dateTitle = "Œroda"; break;
-		case Calendar.THURSDAY: dateTitle = "Czwartek"; break;
-		case Calendar.FRIDAY: dateTitle = "Pi¹tek"; break;
-		case Calendar.SATURDAY: dateTitle = "Sobota"; break;
-		case Calendar.SUNDAY: dateTitle = "Niedziela"; break;
-		}
-		
-		holder.titleView.setText(String.format("%s (%02d-%02d-%d)", dateTitle, calendar.get(Calendar.DAY_OF_MONTH), 
-				calendar.get(Calendar.MONTH), calendar.get(Calendar.YEAR)));
+		holder.titleView.setText(String.format("%02d:%02d", calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE)));
 		
 		switch(item.type) {
 		case CLEAR_SKY:	holder.image.setImageResource(R.drawable.clear_sky_day); break;

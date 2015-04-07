@@ -54,7 +54,8 @@ public class LongRowAdapter extends ArrayAdapter<DetailedDayWeather> {
 		DetailedDayWeather item = data[position];
 		calendar.setTimeInMillis(item.timestamp*1000);
 		
-		holder.tempView.setText(item.temp+"\u2103");
+		holder.tempView.setText(String.format("%.1f\u2103", item.temp));
+		//holder.tempView.setText(item.temp+"\u2103");
 		holder.rainView.setText(item.rainMinimeters+"mm");
 		holder.windView.setText(item.windSpeed+"km/h");
 		holder.humidityView.setText(item.humidity+"%");

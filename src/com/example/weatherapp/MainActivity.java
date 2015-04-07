@@ -55,6 +55,8 @@ public class MainActivity extends FragmentActivity {
         }
     };
     
+    private int anim = 0;
+    
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -236,6 +238,17 @@ public class MainActivity extends FragmentActivity {
 		actionBar.addTab(actionBar.newTab().setText("D³ugoterminowa")
 				.setTabListener(tabListener));
 	}
+	
+	private void updateAnim() {
+		switch(this.anim) {
+		case 0: mViewPager.setPageTransformer(true, new ZoomOutPageTransformer());
+			Toast.makeText(getApplicationContext(), "Wybrano animacje: Zoom", Toast.LENGTH_SHORT).show(); break;
+		case 1: mViewPager.setPageTransformer(true, new DepthPageTransformer());
+			Toast.makeText(getApplicationContext(), "Wybrano animacje: Depth", Toast.LENGTH_SHORT).show(); break;
+//		case 2: mViewPager.setPageTransformer(true, null);
+//			Toast.makeText(getApplicationContext(), "Wybrano animacje: Default", Toast.LENGTH_SHORT).show(); break;
+		}
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -248,6 +261,11 @@ public class MainActivity extends FragmentActivity {
 		switch (item.getItemId()) {
 		case R.id.action_location:
 			showDialogLocation();
+			return true;
+		case R.id.action_settings:
+			anim++;
+			if(anim == 2) anim = 0;
+			updateAnim();
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
